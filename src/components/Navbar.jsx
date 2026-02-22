@@ -41,7 +41,7 @@ const NAV_DATA = {
   shoes: {
     label: "Shoes",
     categories: [
-      { title: "Women's Shoes", items: ["Heels & Pumps","Sandals & Slides","Sneakers","Boots & Ankle Boots","Flats & Loafers","Wedges"] },
+      { title: "Women's Shoes", items: ["Slides Shoes","Sandals","Sneakers","Boots & Ankle Boots","Flats & Loafers","Wedges"] },
       { title: "Men's Shoes",   items: ["Formal Shoes","Sneakers & Trainers","Boots","Loafers & Moccasins","Sandals","Sports Shoes"] },
       { title: "Shop By",       items: ["New Arrivals","Best Sellers","Sale","Luxury Picks","Under PKR 2000","Trending Now"] },
     ],
