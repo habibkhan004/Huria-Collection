@@ -1,18 +1,25 @@
 import { useState } from 'react'
 import Navbar from './components/Navbar'
-import HeroSection from './components/Hero'
 import Footer from './components/Footer'
+import ProductDetail from './pages/ProductDetails'
+import Cart from './pages/Cart'
+import Checkout from './pages/Checkout'
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-    <Navbar></Navbar>
-    <HeroSection></HeroSection>
-
-    <Footer></Footer>
-    </>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   )
 }
 

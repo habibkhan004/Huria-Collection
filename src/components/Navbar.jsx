@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 import {
   Search, ShoppingBag, Heart, User, ChevronDown,
   Menu, X, Phone, Sparkles, Facebook, Instagram,
@@ -93,8 +95,8 @@ export default function Navbar() {
   useEffect(() => { const fn = () => setScrolled(window.scrollY > 28); window.addEventListener("scroll", fn); return () => window.removeEventListener("scroll", fn); }, []);
   useEffect(() => { if (searchOpen) searchRef.current?.focus(); }, [searchOpen]);
 
-  const enterDrop = (key) => { clearTimeout(dropTimer.current); setActiveDropdown(key); };
-  const leaveDrop = ()    => { dropTimer.current = setTimeout(() => setActiveDropdown(null), 200); };
+  const navigate = useNavigate();
+  const { totalItems } = useCart(); 
 
   return (
     <>
@@ -173,14 +175,23 @@ export default function Navbar() {
                 )}
               </div>
 
-              <button className="relative p-2 rounded-full transition-all hover:scale-110" style={{ color:C.textMid }} aria-label="Cart">
-                <ShoppingBag size={20} />
-                {cartCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-5 h-5 text-[10px] font-black rounded-full flex items-center justify-center" style={{ background:C.pink, color:C.white }}>
-                    {cartCount}
-                  </span>
-                )}
-              </button>
+ <button
+      onClick={() => navigate("/cart")}
+      className="relative p-2 rounded-full transition-all hover:scale-110"
+      style={{ color: C.textMid }}
+      aria-label="Cart"
+    >
+      <ShoppingBag size={20} />
+
+      {totalItems > 0 && (
+        <span
+          className="absolute -top-0.5 -right-0.5 w-5 h-5 text-[10px] font-black rounded-full flex items-center justify-center"
+          style={{ background: C.pink, color: C.white }}
+        >
+          {totalItems}
+        </span>
+      )}
+    </button>
 
               {/* Shop Now — replaces Sign In */}
               <a

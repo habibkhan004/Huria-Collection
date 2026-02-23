@@ -148,7 +148,7 @@ export default function Footer() {
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               {[
                 { Icon: Phone,  text: "+92 321 3242328",          href: "tel:+923213242328",              sub: "Mon–Sat, 10am–8pm" },
-                { Icon: Mail,   text: "hello@huriacollection.pk", href: "mailto:infoo@huriacollection.pk", sub: "Reply within 24 hrs" },
+                { Icon: Mail,   text: "info@huriacollection.pk", href: "mailto:infoo@huriacollection.pk", sub: "Reply within 24 hrs" },
                 { Icon: MapPin, text: "Peshawar, Pakistan",         href: "#",                              sub: "Nationwide delivery" },
               ].map(({ Icon, text, href, sub }) => (
                 <a
