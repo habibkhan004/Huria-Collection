@@ -1,562 +1,370 @@
 import { useState, useEffect, useRef } from "react";
-import { ArrowRight, Sparkles, ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
-// ─── Color tokens (same as Navbar) ────────────────────────────────────────────
-const C = {
-  pink:      "#e75480",
-  pinkLight: "#f4a7b9",
-  pinkPale:  "#fde8ef",
-  pinkDark:  "#b5355c",
-  cream:     "#fff8f2",
-  creamDark: "#f5e6dc",
-  text:      "#3b1f2b",
-  textMid:   "#7a4058",
-  white:     "#ffffff",
-};
-
-// ─── Slide data — replace image URLs with your actual product images ──────────
 const SLIDES = [
   {
     id: 0,
-    badge: "New Collection",
-    headline: ["Glow Up Your", "World"],
-    accent: "Cosmetics",
-    sub: "Luxury beauty essentials crafted for every skin tone. Bold, vibrant, and made to last.",
-    cta: "Shop Cosmetics",
-    ctaLink: "/cosmetics",
-    tag: "Up to 30% off",
-    stats: [{ label: "Shades", val: "200+" }, { label: "Brands", val: "50+" }, { label: "Reviews", val: "10k+" }],
-    // Gradient used as placeholder — swap src below for a real image
-    imgGradient: `linear-gradient(135deg, #f9d6e3 0%, #f4a7b9 40%, #e75480 100%)`,
-    imgSrc: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&q=80",
-    floatEmoji: ["💄", "✨", "💋", "🌸"],
-    bgGrad: `linear-gradient(135deg, ${C.pinkPale} 0%, ${C.cream} 60%, #fff0f5 100%)`,
+    theme: {
+      // ── Light warm sand/beige theme for shoes ──
+      bg:         "#f5efe6",          // warm light sand
+      accent:     "#8b6f47",          // warm brown
+      accentDark: "#5c4430",          // deep brown
+      text:       "#2d1f0e",          // dark warm brown text
+      sub:        "#7a6248",          // mid brown subtext
+      badge:      { bg: "#e8d8c4", color: "#5c4430" },
+      btnPrimary: { bg: "linear-gradient(135deg,#8b6f47,#5c4430)", color: "#fff5ee" },
+      imgRing:    "rgba(139,111,71,0.18)",
+      orb1:       "rgba(200,170,130,0.18)",
+      orb2:       "rgba(230,210,185,0.25)",
+      ticker:     "linear-gradient(135deg,#8b6f47,#5c4430)",
+      dotActive:  "#8b6f47",
+    },
+    badge:   "New Arrivals",
+    headline: "Step Into\nBold Style",
+    sub:     "Premium men's footwear — crafted for comfort, built for confidence.",
+    cta:     "Shop Men's Shoes",
+    ctaLink: "/shoes/men",
+    imgSrc:  "/shoes2.jpg",
+    imgAlt:  "Men's shoes collection",
+    tag:     "Sale up to 40% off",
   },
   {
     id: 1,
-    badge: "Just Dropped",
-    headline: ["Step Into", "Style"],
-    accent: "Footwear",
-    sub: "Every stride deserves elegance. Discover our curated collection of heels, sneakers & more.",
-    cta: "Shop Shoes",
-    ctaLink: "/shoes",
-    tag: "Sale up to 40%",
-    stats: [{ label: "Styles", val: "500+" }, { label: "Sizes", val: "UK 3-12" }, { label: "Sold", val: "25k+" }],
-    imgGradient: `linear-gradient(135deg, #ffe0ec 0%, #f4a7b9 40%, #c9496e 100%)`,
-    imgSrc: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=600&q=80",
-    floatEmoji: ["👠", "✨", "👟", "🌷"],
-    bgGrad: `linear-gradient(135deg, #fff5f8 0%, ${C.cream} 60%, ${C.creamDark} 100%)`,
-  },
-  {
-    id: 2,
-    badge: "Exclusive Deals",
-    headline: ["Beauty Meets", "Elegance"],
-    accent: "Luxury Picks",
-    sub: "Handpicked premium cosmetics and footwear for the woman who knows her worth.",
-    cta: "Explore All",
-    ctaLink: "/collections",
-    tag: "Members Save Extra 10%",
-    stats: [{ label: "Products", val: "1200+" }, { label: "Happy Clients", val: "30k+" }, { label: "Awards", val: "12" }],
-    imgGradient: `linear-gradient(135deg, #fce4ec 0%, #e91e8c 60%, #880e4f 100%)`,
-    imgSrc: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80",
-    floatEmoji: ["💎", "🌹", "👑", "✨"],
-    bgGrad: `linear-gradient(135deg, #fff8f2 0%, #fff0f5 60%, ${C.creamDark} 100%)`,
+    theme: {
+      // ── Warm cream + rose theme for cosmetics ──
+      bg:         "#fff8f2",          // warm cream
+      accent:     "#d4796a",          // muted rose
+      accentDark: "#a85547",          // deep rose
+      text:       "#3b1f2b",          // dark plum text
+      sub:        "#7a5040",          // mid rose-brown subtext
+      badge:      { bg: "#f4a7b9", color: "#3b1f2b" },
+      btnPrimary: { bg: "linear-gradient(135deg,#e75480,#b5355c)", color: "#fff" },
+      imgRing:    "rgba(212,121,106,0.15)",
+      orb1:       "rgba(244,167,185,0.14)",
+      orb2:       "rgba(255,220,200,0.22)",
+      ticker:     "linear-gradient(135deg,#e75480,#b5355c)",
+      dotActive:  "#e75480",
+    },
+    badge:   "Beauty Edit",
+    headline: "Glow Up\nYour World",
+    sub:     "Luxury cosmetics for every skin tone — vibrant, long-lasting, and you.",
+    cta:     "Shop Cosmetics",
+    ctaLink: "/cosmetics",
+    imgSrc:  "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=700&q=85",
+    imgAlt:  "Cosmetics collection",
+    tag:     "Buy 2 Get 1 Free",
   },
 ];
 
-// ─── Floating particle orbs ────────────────────────────────────────────────────
-const ORBS = [
-  { size: 320, top: "-80px",  left: "-60px",  color: "rgba(231,84,128,0.08)", delay: "0s",   dur: "8s"  },
-  { size: 200, top: "40%",    right: "-40px",  color: "rgba(244,167,185,0.12)", delay: "1s",  dur: "11s" },
-  { size: 140, bottom: "60px",left: "30%",     color: "rgba(231,84,128,0.07)", delay: "2s",  dur: "9s"  },
-  { size: 90,  top: "20%",    left: "20%",     color: "rgba(255,182,193,0.18)", delay: "0.5s",dur: "6s"  },
-];
-
-// ─── Floating emoji badge ──────────────────────────────────────────────────────
-const FloatingEmoji = ({ emoji, style }) => (
-  <div
-    className="absolute text-2xl select-none pointer-events-none"
-    style={{
-      ...style,
-      animation: `floatUp ${3 + Math.random() * 3}s ease-in-out infinite alternate`,
-    }}
-  >
-    {emoji}
-  </div>
-);
-
-// ─── Star rating row ───────────────────────────────────────────────────────────
-const Stars = () => (
-  <div className="flex items-center gap-0.5">
-    {[...Array(5)].map((_, i) => (
-      <Star key={i} size={13} fill={C.pink} color={C.pink} />
-    ))}
-    <span className="ml-1.5 text-xs font-semibold" style={{ color: C.textMid }}>4.9 · 10,000+ reviews</span>
-  </div>
-);
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// HERO SECTION
-// ═══════════════════════════════════════════════════════════════════════════════
 export default function HeroSection() {
-  const [active, setActive]     = useState(0);
-  const [prev, setPrev]         = useState(null);
-  const [dir, setDir]           = useState(1);       // 1 = forward, -1 = back
-  const [animKey, setAnimKey]   = useState(0);
-  const [paused, setPaused]     = useState(false);
-  const [imgLoaded, setImgLoaded] = useState({});
-  const timerRef = useRef(null);
+  const [active, setActive]   = useState(0);
+  const [animKey, setAnimKey] = useState(0);
+  const [paused, setPaused]   = useState(false);
+  const [loaded, setLoaded]   = useState({});
+  const timer = useRef(null);
 
-  const goTo = (idx, direction = 1) => {
-    setPrev(active);
-    setDir(direction);
-    setActive(idx);
-    setAnimKey((k) => k + 1);
-  };
+  const goTo = (idx) => { setActive(idx); setAnimKey(k => k + 1); };
+  const next = () => goTo((active + 1) % SLIDES.length);
+  const back = () => goTo((active - 1 + SLIDES.length) % SLIDES.length);
 
-  const next = () => goTo((active + 1) % SLIDES.length, 1);
-  const back = () => goTo((active - 1 + SLIDES.length) % SLIDES.length, -1);
-
-  // Auto-advance
   useEffect(() => {
     if (paused) return;
-    timerRef.current = setTimeout(next, 5200);
-    return () => clearTimeout(timerRef.current);
+    timer.current = setTimeout(next, 3000);
+    return () => clearTimeout(timer.current);
   }, [active, paused]);
 
-  const slide = SLIDES[active];
+  const s = SLIDES[active];
+  const T = s.theme;
 
   return (
     <section
       className="relative w-full overflow-hidden"
       style={{
-        minHeight: "92vh",
-        background: slide.bgGrad,
-        transition: "background 0.9s ease",
-        fontFamily: "'Playfair Display', 'Georgia', serif",
+        height: "70vh",
+        minHeight: "480px",
+        maxHeight: "780px",
+        background: T.bg,
+        transition: "background 0.8s ease",
       }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* ── Keyframe styles ── */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600&display=swap');
 
-        @keyframes floatUp {
-          from { transform: translateY(0px) rotate(-3deg) scale(1);   }
-          to   { transform: translateY(-18px) rotate(4deg) scale(1.08); }
+        @keyframes hs-fadeLeft {
+          from { opacity:0; transform:translateX(-40px); }
+          to   { opacity:1; transform:translateX(0);     }
         }
-        @keyframes orbPulse {
-          0%,100% { transform: scale(1) translate(0,0); opacity: 0.6; }
-          50%      { transform: scale(1.15) translate(8px,-8px); opacity: 1; }
+        @keyframes hs-fadeUp {
+          from { opacity:0; transform:translateY(20px); }
+          to   { opacity:1; transform:translateY(0);    }
         }
-        @keyframes slideInLeft {
-          from { opacity: 0; transform: translateX(-60px); }
-          to   { opacity: 1; transform: translateX(0); }
+        @keyframes hs-scaleIn {
+          from { opacity:0; transform:scale(0.88) translateX(28px); }
+          to   { opacity:1; transform:scale(1)    translateX(0);    }
         }
-        @keyframes slideInRight {
-          from { opacity: 0; transform: translateX(60px); }
-          to   { opacity: 1; transform: translateX(0); }
+        @keyframes hs-badgePop {
+          0%  { opacity:0; transform:scale(0.6); }
+          75% { transform:scale(1.06);           }
+          100%{ opacity:1; transform:scale(1);   }
         }
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to   { opacity: 1; transform: translateY(0); }
+        @keyframes hs-orbFloat {
+          0%,100%{ transform:scale(1) translate(0,0);         }
+          50%    { transform:scale(1.1) translate(5px,-5px);  }
         }
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to   { opacity: 1; }
+        @keyframes hs-imgFloat {
+          0%,100%{ transform:translateY(0px);  }
+          50%    { transform:translateY(-9px); }
         }
-        @keyframes shimmer {
-          0%   { background-position: -400px 0; }
-          100% { background-position: 400px 0; }
+        @keyframes hs-spin {
+          from{ transform:rotate(0deg);   }
+          to  { transform:rotate(360deg); }
         }
-        @keyframes scaleIn {
-          from { opacity: 0; transform: scale(0.82); }
-          to   { opacity: 1; transform: scale(1); }
+        @keyframes hs-progress {
+          from{ width:0%;   }
+          to  { width:100%; }
         }
-        @keyframes tickerSlide {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+        @keyframes hs-ticker {
+          0%  { transform:translateX(0);    }
+          100%{ transform:translateX(-50%); }
         }
-        @keyframes progressBar {
-          from { width: 0%; }
-          to   { width: 100%; }
+        .hs-btn {
+          position:relative; overflow:hidden;
+          transition:transform .2s, box-shadow .2s;
         }
-        @keyframes badgePop {
-          0%   { opacity: 0; transform: scale(0.5) rotate(-6deg); }
-          70%  { transform: scale(1.08) rotate(2deg); }
-          100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        .hs-btn:hover { transform:translateY(-2px); }
+        .hs-btn::after {
+          content:''; position:absolute; inset:0;
+          background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,0.2) 50%,transparent 65%);
+          animation:hs-shimmer 2.6s ease-in-out infinite;
+          background-size:260% 100%;
         }
-        @keyframes spinSlow {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
+        @keyframes hs-shimmer {
+          0%  { background-position:-300px 0; }
+          100%{ background-position:300px  0; }
         }
-        .hero-btn {
-          position: relative;
-          overflow: hidden;
-        }
-        .hero-btn::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%);
-          background-size: 300% 100%;
-          animation: shimmer 2.5s ease-in-out infinite;
-        }
-        .hero-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(231,84,128,0.45); }
-        .hero-btn:active { transform: translateY(0); }
       `}</style>
 
       {/* ── Background orbs ── */}
-      {ORBS.map((o, i) => (
-        <div
-          key={i}
-          className="absolute rounded-full pointer-events-none"
-          style={{
-            width: o.size,
-            height: o.size,
-            top: o.top,
-            left: o.left,
-            right: o.right,
-            bottom: o.bottom,
-            background: o.color,
-            filter: "blur(40px)",
-            animation: `orbPulse ${o.dur} ${o.delay} ease-in-out infinite`,
-          }}
-        />
-      ))}
-
-      {/* ── Decorative diagonal line ── */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `repeating-linear-gradient(
-            -55deg,
-            transparent,
-            transparent 80px,
-            rgba(231,84,128,0.025) 80px,
-            rgba(231,84,128,0.025) 81px
-          )`,
-        }}
-      />
-
-      {/* ── Main content grid ── */}
-      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 flex flex-col lg:flex-row items-center gap-10 lg:gap-0 min-h-[92vh] py-16 lg:py-0">
-
-        {/* LEFT — Text content */}
-        <div className="flex-1 flex flex-col gap-6 lg:pr-10" key={`text-${animKey}`}>
-
-          {/* Badge */}
-          <div
-            className="inline-flex items-center gap-2 self-start px-4 py-2 rounded-full text-xs font-bold tracking-widest uppercase"
-            style={{
-              background: `linear-gradient(135deg, ${C.pink}, ${C.pinkDark})`,
-              color: C.white,
-              boxShadow: `0 4px 16px ${C.pinkLight}`,
-              animation: "badgePop 0.6s cubic-bezier(0.34,1.56,0.64,1) both",
-              animationDelay: "0.1s",
-            }}
-          >
-            <Sparkles size={13} />
-            {slide.badge}
-          </div>
-
-          {/* Headline */}
-          <div style={{ animation: "slideInLeft 0.65s cubic-bezier(0.22,1,0.36,1) 0.2s both" }}>
-            <h1
-              className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight"
-              style={{ color: C.text, fontFamily: "'Playfair Display', Georgia, serif" }}
-            >
-              {slide.headline[0]}
-              <br />
-              <span
-                className="italic"
-                style={{
-                  background: `linear-gradient(135deg, ${C.pink} 0%, ${C.pinkDark} 100%)`,
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                {slide.headline[1]}
-              </span>
-            </h1>
-
-            {/* Accent tag */}
-            <div className="flex items-center gap-3 mt-3">
-              <div className="h-px flex-1 max-w-[48px]" style={{ background: C.pinkLight }} />
-              <span
-                className="text-xs font-black tracking-[0.35em] uppercase"
-                style={{ color: C.pink }}
-              >
-                {slide.accent}
-              </span>
-              <div className="h-px flex-1 max-w-[48px]" style={{ background: C.pinkLight }} />
-            </div>
-          </div>
-
-          {/* Sub text */}
-          <p
-            className="text-base sm:text-lg leading-relaxed max-w-md"
-            style={{
-              color: C.textMid,
-              fontFamily: "'DM Sans', sans-serif",
-              animation: "fadeUp 0.65s ease 0.4s both",
-            }}
-          >
-            {slide.sub}
-          </p>
-
-          {/* Stars */}
-          <div style={{ animation: "fadeUp 0.65s ease 0.5s both" }}>
-            <Stars />
-          </div>
-
-          {/* CTAs */}
-          <div
-            className="flex flex-wrap items-center gap-3"
-            style={{ animation: "fadeUp 0.65s ease 0.55s both" }}
-          >
-            <a
-              href={slide.ctaLink}
-              className="hero-btn inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-black tracking-wide uppercase transition-all duration-200"
-              style={{
-                background: `linear-gradient(135deg, ${C.pink}, ${C.pinkDark})`,
-                color: C.white,
-                boxShadow: `0 6px 24px ${C.pinkLight}`,
-              }}
-            >
-              {slide.cta}
-              <ArrowRight size={16} />
-            </a>
-
-            <a
-              href="/collections"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-bold tracking-wide border-2 transition-all duration-200 hover:shadow-md"
-              style={{
-                borderColor: C.pinkLight,
-                color: C.pink,
-                background: "rgba(255,255,255,0.7)",
-              }}
-            >
-              View All
-            </a>
-
-            {/* Sale tag pill */}
-            <span
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-black tracking-wide"
-              style={{ background: C.pinkPale, color: C.pinkDark }}
-            >
-              🏷️ {slide.tag}
-            </span>
-          </div>
-
-          {/* Stats row */}
-          <div
-            className="flex items-center gap-6 pt-2"
-            style={{ animation: "fadeUp 0.65s ease 0.7s both" }}
-          >
-            {slide.stats.map((s, i) => (
-              <div key={i} className="text-center">
-                <div
-                  className="text-2xl font-black"
-                  style={{ color: C.text, fontFamily: "'Playfair Display', serif" }}
-                >
-                  {s.val}
-                </div>
-                <div className="text-[10px] font-semibold tracking-widest uppercase" style={{ color: C.textMid }}>
-                  {s.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* RIGHT — Image card */}
-        <div
-          className="flex-1 flex items-center justify-center relative lg:justify-end"
-          key={`img-${animKey}`}
-          style={{ animation: "scaleIn 0.75s cubic-bezier(0.34,1.4,0.64,1) 0.15s both" }}
-        >
-          {/* Floating emojis */}
-          {slide.floatEmoji.map((em, i) => (
-            <FloatingEmoji
-              key={i}
-              emoji={em}
-              style={{
-                top:   i === 0 ? "8%"  : i === 1 ? "15%" : i === 2 ? "75%" : "60%",
-                left:  i === 0 ? "5%"  : i === 3 ? "4%"  : undefined,
-                right: i === 1 ? "4%"  : i === 2 ? "5%"  : undefined,
-                animationDelay: `${i * 0.4}s`,
-                zIndex: 20,
-                fontSize: "1.8rem",
-              }}
-            />
-          ))}
-
-          {/* Spinning decorative ring */}
-          <div
-            className="absolute rounded-full pointer-events-none"
-            style={{
-              width: 420,
-              height: 420,
-              border: `2px dashed ${C.pinkLight}`,
-              opacity: 0.5,
-              animation: "spinSlow 20s linear infinite",
-            }}
-          />
-          <div
-            className="absolute rounded-full pointer-events-none"
-            style={{
-              width: 360,
-              height: 360,
-              border: `1px solid ${C.pinkPale}`,
-              opacity: 0.7,
-              animation: "spinSlow 14s linear infinite reverse",
-            }}
-          />
-
-          {/* Main image card */}
-          <div
-            className="relative rounded-[32px] overflow-hidden shadow-2xl"
-            style={{
-              width: "min(420px, 88vw)",
-              aspectRatio: "3/4",
-              background: slide.imgGradient,
-              boxShadow: `0 32px 80px rgba(231,84,128,0.25), 0 8px 24px rgba(0,0,0,0.08)`,
-            }}
-          >
-            <img
-              src={slide.imgSrc}
-              alt={slide.cta}
-              className="w-full h-full object-cover"
-              style={{
-                opacity: imgLoaded[slide.id] ? 1 : 0,
-                transition: "opacity 0.5s ease",
-              }}
-              onLoad={() => setImgLoaded((p) => ({ ...p, [slide.id]: true }))}
-            />
-
-            {/* Image overlay gradient */}
-            <div
-              className="absolute inset-0"
-              style={{
-                background: `linear-gradient(to top, ${C.pinkDark}55 0%, transparent 50%)`,
-              }}
-            />
-
-            {/* Bottom label on image */}
-            <div
-              className="absolute bottom-5 left-5 right-5 flex items-center justify-between"
-            >
-              <div
-                className="px-4 py-2 rounded-2xl backdrop-blur-sm text-white text-sm font-bold"
-                style={{ background: "rgba(255,255,255,0.18)", border: "1px solid rgba(255,255,255,0.25)" }}
-              >
-                ✨ {slide.badge}
-              </div>
-              <a
-                href={slide.ctaLink}
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-transform hover:scale-110"
-                style={{ background: C.white, color: C.pink, boxShadow: "0 4px 12px rgba(0,0,0,0.15)" }}
-              >
-                <ArrowRight size={16} />
-              </a>
-            </div>
-
-            {/* Top-right discount badge */}
-            <div
-              className="absolute top-5 right-5 w-16 h-16 rounded-full flex flex-col items-center justify-center text-center"
-              style={{
-                background: `linear-gradient(135deg, ${C.pink}, ${C.pinkDark})`,
-                color: C.white,
-                boxShadow: `0 4px 16px ${C.pinkLight}`,
-                animation: "badgePop 0.6s ease 0.8s both",
-              }}
-            >
-              <span className="text-[10px] font-black leading-none">UP TO</span>
-              <span className="text-xl font-black leading-none">40%</span>
-              <span className="text-[9px] font-bold">OFF</span>
-            </div>
-          </div>
-        </div>
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div style={{
+          position:"absolute", width:360, height:360,
+          top:"-90px", left:"-70px", borderRadius:"50%",
+          background:T.orb1, filter:"blur(65px)",
+          animation:"hs-orbFloat 9s ease-in-out infinite",
+        }}/>
+        <div style={{
+          position:"absolute", width:240, height:240,
+          bottom:"10px", right:"-50px", borderRadius:"50%",
+          background:T.orb2, filter:"blur(55px)",
+          animation:"hs-orbFloat 12s ease-in-out infinite reverse",
+        }}/>
       </div>
 
-      {/* ── Slide controls ── */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4">
-        {/* Dot indicators with progress */}
-        <div className="flex items-center gap-3">
-          {SLIDES.map((s, i) => (
-            <button
-              key={i}
-              onClick={() => goTo(i, i > active ? 1 : -1)}
-              className="relative overflow-hidden rounded-full transition-all duration-300"
+      {/* ── Main layout ── */}
+      <div
+        className="relative z-10 h-full max-w-6xl mx-auto px-4 sm:px-10 lg:px-14 flex flex-col sm:flex-row items-center gap-3 sm:gap-8 lg:gap-14"
+        key={`layout-${animKey}`}
+        style={{ paddingBottom:"44px", paddingTop:"8px" }}
+      >
+
+        {/* LEFT — Text */}
+        <div className="flex-1 flex flex-col gap-2 sm:gap-5 min-w-0 w-full text-center sm:text-left">
+
+          {/* Badge */}
+          <span
+            className="inline-flex items-center self-start px-3.5 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase"
+            style={{
+              background:T.badge.bg, color:T.badge.color,
+              animation:"hs-badgePop 0.5s cubic-bezier(.34,1.56,.64,1) 0.05s both",
+            }}
+          >
+            ✦ {s.badge}
+          </span>
+
+          {/* Headline */}
+          <h1
+            style={{
+              fontSize:"clamp(1.6rem,5vw,3.7rem)",
+              fontFamily:"'Playfair Display',Georgia,serif",
+              fontWeight:900,
+              lineHeight:1.08,
+              letterSpacing:"-0.01em",
+              color:T.text,
+              whiteSpace:"pre-line",
+              animation:"hs-fadeLeft 0.6s cubic-bezier(.22,1,.36,1) 0.15s both",
+            }}
+          >
+            {s.headline.split("\n")[0]}
+            {"\n"}
+            <span style={{
+              fontStyle:"italic",
+              background:T.btnPrimary.bg,
+              WebkitBackgroundClip:"text",
+              WebkitTextFillColor:"transparent",
+              backgroundClip:"text",
+            }}>
+              {s.headline.split("\n")[1]}
+            </span>
+          </h1>
+
+          {/* Sub */}
+          <p
+            style={{
+              color:T.sub,
+              fontFamily:"'DM Sans',sans-serif",
+              fontSize:"clamp(0.85rem,1.5vw,1rem)",
+              lineHeight:1.65,
+              maxWidth:"360px",
+              animation:"hs-fadeUp 0.6s ease 0.3s both",
+            }}
+          >
+            {s.sub}
+          </p>
+
+          {/* CTA row */}
+          <div style={{ display:"flex", alignItems:"center", gap:"12px", flexWrap:"wrap", animation:"hs-fadeUp 0.6s ease 0.42s both" }}>
+            <a
+              href={s.ctaLink}
+              className="hs-btn"
               style={{
-                width: i === active ? 36 : 10,
-                height: 10,
-                background: i === active ? C.pinkLight : "rgba(231,84,128,0.25)",
+                display:"inline-flex", alignItems:"center", gap:"8px",
+                padding:"12px 26px", borderRadius:"999px",
+                background:T.btnPrimary.bg, color:T.btnPrimary.color,
+                fontSize:"13px", fontWeight:700, letterSpacing:"0.04em",
+                textDecoration:"none",
+                boxShadow:`0 6px 22px ${T.imgRing}`,
               }}
-              aria-label={`Go to slide ${i + 1}`}
             >
-              {i === active && (
-                <div
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    background: C.pink,
-                    animation: `progressBar 5.2s linear`,
-                    animationFillMode: "forwards",
-                  }}
-                  key={animKey}
-                />
-              )}
-            </button>
-          ))}
+              {s.cta} <ArrowRight size={15} />
+            </a>
+
+            <span style={{
+              fontSize:"12px", fontWeight:600,
+              padding:"7px 14px", borderRadius:"999px",
+              background:"rgba(255,255,255,0.72)",
+              color:T.accent,
+              border:`1px solid ${T.imgRing}`,
+              backdropFilter:"blur(4px)",
+            }}>
+              🏷️ {s.tag}
+            </span>
+          </div>
+        </div>
+
+        {/* RIGHT — Image — visible on all screens */}
+        <div
+          className="flex-shrink-0 flex items-center justify-center relative"
+          style={{ animation:"hs-scaleIn 0.7s cubic-bezier(.34,1.4,.64,1) 0.1s both" }}
+        >
+          {/* Spinning ring — hidden on mobile to keep it clean */}
+          <div className="hidden sm:block" style={{
+            position:"absolute",
+            width:370, height:370, borderRadius:"50%",
+            border:`2px dashed ${T.imgRing}`,
+            animation:"hs-spin 24s linear infinite",
+            pointerEvents:"none",
+          }}/>
+          <div className="hidden sm:block" style={{
+            position:"absolute",
+            width:310, height:310, borderRadius:"50%",
+            border:`1px solid ${T.imgRing}`,
+            opacity:0.5,
+            animation:"hs-spin 16s linear infinite reverse",
+            pointerEvents:"none",
+          }}/>
+
+          {/* Image card — NO badges inside */}
+          <div style={{
+            width:"clamp(200px,55vw,320px)",
+            aspectRatio:"3/4",
+            borderRadius:"22px",
+            overflow:"hidden",
+            background:`linear-gradient(135deg,${T.orb1},${T.orb2})`,
+            boxShadow:`0 28px 64px ${T.imgRing}, 0 6px 18px rgba(0,0,0,0.07)`,
+            animation:"hs-imgFloat 4.5s ease-in-out infinite",
+            position:"relative",
+          }}>
+            <img
+              src={s.imgSrc}
+              alt={s.imgAlt}
+              style={{
+                width:"100%", height:"100%", objectFit:"cover",
+                opacity:loaded[s.id] ? 1 : 0,
+                transition:"opacity 0.45s ease",
+              }}
+              onLoad={() => setLoaded(p => ({ ...p, [s.id]:true }))}
+            />
+            {/* Subtle bottom gradient only — no text/badges */}
+            <div style={{
+              position:"absolute", inset:0,
+              background:`linear-gradient(to top, ${T.accentDark}55 0%, transparent 45%)`,
+              pointerEvents:"none",
+            }}/>
+          </div>
         </div>
       </div>
 
       {/* ── Prev / Next arrows ── */}
       {[
-        { fn: back, icon: <ChevronLeft size={20} />,  pos: "left-4 sm:left-8"  },
-        { fn: next, icon: <ChevronRight size={20} />, pos: "right-4 sm:right-8" },
-      ].map(({ fn, icon, pos }, i) => (
+        { fn:back, Icon:ChevronLeft,  css:"left:14px"  },
+        { fn:next, Icon:ChevronRight, css:"right:14px" },
+      ].map(({ fn, Icon, css }, i) => (
         <button
           key={i}
           onClick={fn}
-          className={`absolute top-1/2 -translate-y-1/2 ${pos} z-20 w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110`}
           style={{
-            background: "rgba(255,255,255,0.85)",
-            color: C.pink,
-            boxShadow: "0 4px 16px rgba(231,84,128,0.18)",
-            backdropFilter: "blur(8px)",
+            position:"absolute", top:"50%",
+            [css.split(":")[0]]: css.split(":")[1],
+            transform:"translateY(-50%)",
+            zIndex:20, width:40, height:40, borderRadius:"50%",
+            background:"rgba(255,255,255,0.88)",
+            color:T.accent, border:"none", cursor:"pointer",
+            display:"flex", alignItems:"center", justifyContent:"center",
+            boxShadow:"0 4px 14px rgba(0,0,0,0.10)",
+            transition:"transform .18s, box-shadow .18s",
           }}
+          onMouseEnter={e => e.currentTarget.style.transform="translateY(-50%) scale(1.1)"}
+          onMouseLeave={e => e.currentTarget.style.transform="translateY(-50%) scale(1)"}
         >
-          {icon}
+          <Icon size={18} />
         </button>
       ))}
 
-      {/* ── Scrolling ticker tape at bottom ── */}
-      <div
-        className="absolute bottom-0 left-0 right-0 py-2.5 overflow-hidden"
-        style={{ background: `linear-gradient(135deg, ${C.pink}, ${C.pinkDark})` }}
-      >
-        <div
-          className="flex items-center gap-12 whitespace-nowrap text-xs font-bold tracking-widest uppercase"
-          style={{
-            color: "rgba(255,255,255,0.9)",
-            animation: "tickerSlide 18s linear infinite",
-            width: "max-content",
-          }}
-        >
-          {[...Array(6)].map((_, i) => (
-            <span key={i} className="flex items-center gap-12">
-              <span>✨ Free Shipping Over PKR 3,000</span>
-              <span>💄 New Cosmetics Dropped</span>
-              <span>👠 Luxury Footwear Collection</span>
-              <span>🎁 Buy 2 Get 1 Free</span>
-            </span>
-          ))}
-        </div>
+      {/* ── Dot indicators ── */}
+      <div style={{
+        position:"absolute", bottom:"48px", left:"50%", transform:"translateX(-50%)",
+        display:"flex", alignItems:"center", gap:"8px", zIndex:20,
+      }}>
+        {SLIDES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => goTo(i)}
+            style={{
+              width: i === active ? 32 : 10,
+              height:10, borderRadius:99,
+              border:"none", cursor:"pointer", padding:0,
+              background: i === active ? T.dotActive : `${T.dotActive}44`,
+              transition:"width .3s ease, background .3s ease",
+              position:"relative", overflow:"hidden",
+            }}
+          >
+            {i === active && (
+              <span
+                key={animKey}
+                style={{
+                  position:"absolute", top:0, left:0, height:"100%",
+                  background:"rgba(255,255,255,0.55)",
+                  animation:"hs-progress 3s linear forwards",
+                  borderRadius:99,
+                }}
+              />
+            )}
+          </button>
+        ))}
       </div>
+
     </section>
   );
 }
