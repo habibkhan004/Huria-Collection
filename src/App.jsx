@@ -6,6 +6,7 @@ import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import ScrollToTop from './components/ScrollToTop'
 import ContactUs from './components/Contact'
+import WhatsAppFloat from './components/WhatsappFloat'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
@@ -25,6 +26,7 @@ function App() {
         <Route path="/contact" element={<ContactUs />} />
       </Routes>
       <Footer />
+      <WhatsAppFloat />
     </BrowserRouter>
   )
 }
