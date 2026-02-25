@@ -44,6 +44,7 @@ const SOCIAL = {
 const PHONE = "+92 321 3242328";
 
 const NAV_DATA = {
+  home: { label: "Home", link: "/" },
   shoes: { label: "Shoes", link: "/shoes" },
   cosmetics: { label: "Cosmetics", link: "/cosmetics" },
 };
