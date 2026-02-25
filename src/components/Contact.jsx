@@ -179,7 +179,7 @@ export default function ContactUs() {
   return (
     <div style={{ background: C.cream, fontFamily: "'DM Sans', sans-serif", minHeight: "100vh" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600;800&display=swap');
+   
 
         @keyframes ct-fadeUp  { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
         @keyframes ct-scaleIn { from{opacity:0;transform:scale(0.95)}      to{opacity:1;transform:scale(1)}      }
