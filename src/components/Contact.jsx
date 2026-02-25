@@ -384,7 +384,7 @@ export default function ContactUs() {
               borderRadius: "24px",
               border: `1px solid ${C.creamDeep}`,
               boxShadow: "0 8px 40px rgba(231,84,128,0.08)",
-              padding: "32px 28px",
+              padding: "20px 20px",
               animation: formVisible ? "ct-scaleIn 0.55s ease 0.1s both" : "none",
             }}
           >
