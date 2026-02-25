@@ -86,7 +86,7 @@ export default function Checkout() {
   return (
     <div
       style={{ background: C.cream, minHeight: "100vh" }}
-      className="py-14 px-6"
+      className="py-8 px-6"
     >
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14">
         
@@ -159,20 +159,7 @@ export default function Checkout() {
             Payment Method: <strong>Cash on Delivery</strong>
           </div>
 
-          <button
-            onClick={handlePlaceOrder}
-            disabled={loading}
-            style={{
-              background: `linear-gradient(135deg, ${C.pink}, ${C.pinkDark})`,
-              color: C.white,
-              opacity: loading ? 0.7 : 1,
-            }}
-            className="mt-8 w-full py-4 rounded-full font-bold shadow-lg transition"
-          >
-            {loading
-              ? "Placing Order..."
-              : `Place Order — PKR ${finalTotal.toLocaleString()}`}
-          </button>
+
         </div>
 
         {/* RIGHT — Order Summary */}
@@ -181,7 +168,7 @@ export default function Checkout() {
             background: C.white,
             border: `1px solid ${C.creamDeep}`,
           }}
-          className="p-8 rounded-2xl shadow-sm"
+          className="p-6 rounded-2xl shadow-sm"
         >
           <h3
             style={{ color: C.text }}
@@ -201,7 +188,7 @@ export default function Checkout() {
                     {item.name}
                   </p>
                   <p style={{ color: C.textMid }}>
-                    Qty: {item.qty}
+                    Quantity: {item.qty}
                   </p>
                 </div>
 
@@ -214,7 +201,7 @@ export default function Checkout() {
 
           <div
             style={{ borderTop: `1px solid ${C.creamDeep}` }}
-            className="mt-8 pt-6 space-y-3 text-sm"
+            className="mt-2 pt-6 space-y-3 text-sm"
           >
             <div className="flex justify-between">
               <span style={{ color: C.textMid }}>Subtotal</span>
@@ -241,6 +228,20 @@ export default function Checkout() {
             </div>
           </div>
         </div>
+                  <button
+            onClick={handlePlaceOrder}
+            disabled={loading}
+            style={{
+              background: `linear-gradient(135deg, ${C.pink}, ${C.pinkDark})`,
+              color: C.white,
+              opacity: loading ? 0.7 : 1,
+            }}
+            className="mt-2 w-full py-4 rounded-full font-bold shadow-lg transition"
+          >
+            {loading
+              ? "Placing Order..."
+              : `Place Order — PKR ${finalTotal.toLocaleString()}`}
+          </button>
       </div>
     </div>
   );

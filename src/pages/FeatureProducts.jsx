@@ -1,18 +1,19 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ShoppingBag, Heart, Star } from "lucide-react";
+import { useNavigate, Link } from "react-router-dom";
+import { ShoppingBag, Star, Truck } from "lucide-react";
 import { SHOES, COSMETICS } from "../components/ProductsData";
 
 const C = {
-  pink: "#e75480",
-  pinkDark: "#b5355c",
+  pink:      "#e75480",
+  pinkDark:  "#b5355c",
   pinkLight: "#f4a7b9",
-  cream: "#fff8f2",
+  pinkPale:  "#fde8ef",
+  cream:     "#fff8f2",
   creamDeep: "#ecddc8",
   creamDark: "#f5e6dc",
-  text: "#3b1f2b",
-  textMid: "#7a4058",
-  white: "#ffffff",
+  text:      "#3b1f2b",
+  textMid:   "#7a4058",
+  white:     "#ffffff",
 };
 
 const Stars = ({ rating }) => (
@@ -31,111 +32,112 @@ const Stars = ({ rating }) => (
 const ProductCard = ({ product, idx }) => {
   const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
-  const [wished, setWished] = useState(false);
 
   return (
     <div
       onClick={() => navigate(`/product/${product.id}`)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className={`
-        flex flex-col cursor-pointer overflow-hidden rounded-2xl
-        transition-transform transition-shadow duration-300
-        ${hovered ? "translate-y-[-6px] shadow-2xl" : "shadow"}
-      `}
-      style={{ animation: `fp-fadeUp 0.5s ease ${idx * 0.07}s both`, background: C.white }}
+      className="flex flex-col cursor-pointer overflow-hidden rounded-2xl transition-all duration-300"
+      style={{
+        animation: `fp-fadeUp 0.5s ease ${idx * 0.07}s both`,
+        background: C.white,
+        border: `1px solid ${hovered ? C.pinkLight : C.creamDeep}`,
+        boxShadow: hovered
+          ? "0 20px 48px rgba(231,84,128,0.15), 0 4px 16px rgba(0,0,0,0.06)"
+          : "0 2px 12px rgba(0,0,0,0.05)",
+        transform: hovered ? "translateY(-6px)" : "translateY(0)",
+      }}
     >
-      {/* Image */}
-      <div className="relative w-full aspect-square overflow-hidden rounded-2xl" style={{ background: C.creamDark }}>
+      {/* ── Image ── */}
+      <div className="relative w-full aspect-square overflow-hidden" style={{ background: C.creamDark }}>
         <img
           src={product.img}
           alt={product.name}
-          className={`w-full h-full object-cover transition-transform duration-400 ${hovered ? "scale-105" : "scale-100"}`}
+          className="w-full h-full object-cover transition-transform duration-500"
+          style={{ transform: hovered ? "scale(1.07)" : "scale(1)" }}
         />
 
-        {/* Badges */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1">
+        {/* Sale / New badges */}
+        <div className="absolute top-2.5 left-2.5 flex flex-col gap-1">
           {product.sale && (
-            <span className="px-2 py-[2px] text-[10px] font-extrabold rounded-full" style={{ background: C.pink, color: C.white }}>
+            <span className="px-2.5 py-[3px] text-[10px] font-extrabold rounded-full"
+              style={{ background: C.pink, color: C.white }}>
               {product.saleLabel}
             </span>
           )}
           {product.isNew && (
-            <span className="px-2 py-[2px] text-[10px] font-extrabold rounded-full" style={{ background: C.text, color: C.white }}>
+            <span className="px-2.5 py-[3px] text-[10px] font-extrabold rounded-full"
+              style={{ background: C.text, color: C.white }}>
               NEW
             </span>
           )}
         </div>
-
-        {/* Wishlist */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setWished((w) => !w);
-          }}
-          className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center shadow-md transition-transform ${
-            wished ? "scale-110" : "scale-100"
-          }`}
-          style={{ background: "rgba(255,255,255,0.92)" }}
-        >
-          <Heart size={15} fill={wished ? C.pink : "none"} color={wished ? C.pink : C.textMid} />
-        </button>
       </div>
 
-      {/* Info */}
-<div className="flex flex-col flex-1 gap-2 p-3">
-  <span  className="text-[10px] flex justify-between font-bold tracking-widest uppercase text-black">
-    {product.category}
-      {product.shippingFee === 0 && (
-    <span className="text-[11px] font-bold text-green-600">
-      Free Delivery
-    </span>
-  )}
-  </span>
+      {/* ── Info ── */}
+      <div className="flex flex-col flex-1 gap-1.5 p-3 pt-2.5">
 
-  <h3 className="text-sm font-bold text-[#3b1f2b] leading-tight">
-    {product.name}
-  </h3>
+        {/* Category */}
+        <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: 'black' }}>
+          {product.category}
+        </span>
 
-  <div className="flex items-center gap-2">
-    <span className="text-[17px] font-black text-pink-600">
-      PKR {product.price.toLocaleString()}
-    </span>
-
-    {product.originalPrice && (
-      <span className="text-[12px] line-through text-pink-300">
-        PKR {product.originalPrice.toLocaleString()}
-      </span>
-    )}
-  </div>
+        {/* Name */}
+        <h3 className="text-sm font-bold leading-snug" style={{ color: 'black'}}>
+          {product.name}
+        </h3>
 
 
+        {/* Price row */}
+        <div className="flex items-baseline gap-2 mt-0.5">
+          <span className="text-[19px] font-black" style={{ color: C.pink }}>
+            PKR {product.price.toLocaleString()}
+          </span>
+          {product.originalPrice && (
+            <span className="text-[14px] line-through" style={{ color: 'black' }}>
+              PKR {product.originalPrice.toLocaleString()}
+            </span>
+          )}
+        </div>
 
-  <button
-    onClick={(e) => {
-      e.stopPropagation();
-      navigate(`/product/${product.id}`);
-    }}
-    className="mt-2 flex items-center justify-center gap-2 w-full py-2 rounded-lg font-bold text-[12px] uppercase bg-gradient-to-r from-pink-500 to-pink-700 text-white shadow-md hover:scale-105 transition-transform"
-  >
-    <ShoppingBag size={14} /> Buy Now
-  </button>
-</div>
+        {/* Free Delivery — sits right below price, compact */}
+        {product.shippingFee === 0 && (
+          <div className="flex items-center gap-1">
+            <Truck size={11} color="#16a34a" />
+            <span className="text-[10px] font-bold" style={{ color: "#16a34a" }}>Free Delivery</span>
+          </div>
+        )}
+
+        {/* Buy Now */}
+        <button
+          onClick={(e) => { e.stopPropagation(); navigate(`/product/${product.id}`); }}
+          className="mt-auto flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl font-bold text-[12px] uppercase tracking-wide transition-all duration-200"
+          style={{
+            background: `linear-gradient(135deg, ${C.pink}, ${C.pinkDark})`,
+            color: C.white,
+            boxShadow: `0 4px 14px rgba(231,84,128,0.28)`,
+            marginTop: "10px",
+          }}
+          onMouseEnter={e => e.currentTarget.style.boxShadow = `0 8px 20px rgba(231,84,128,0.4)`}
+          onMouseLeave={e => e.currentTarget.style.boxShadow = `0 4px 14px rgba(231,84,128,0.28)`}
+        >
+          <ShoppingBag size={13} /> Buy Now
+        </button>
+      </div>
     </div>
   );
 };
 
+// ═══════════════════════════════════════════════════════════════════════════════
 export default function FeaturedProducts() {
   const [activeTab, setActiveTab] = useState("shoes");
-  const [tabKey, setTabKey] = useState(0);
+  const [tabKey, setTabKey]       = useState(0);
 
   const products = activeTab === "shoes" ? SHOES : COSMETICS;
 
   const switchTab = (tab) => {
-    if (tab !== activeTab) {
-      setActiveTab(tab);
-      setTabKey((k) => k + 1);
-    }
+    if (tab !== activeTab) { setActiveTab(tab); setTabKey(k => k + 1); }
   };
 
   return (
@@ -146,37 +148,47 @@ export default function FeaturedProducts() {
       `}</style>
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+
         {/* Header */}
         <div className="text-center mb-8">
           <span className="block text-[11px] font-bold tracking-widest uppercase mb-2" style={{ color: C.pink }}>
             ✦ Handpicked For You
           </span>
-          <h2 className="text-[clamp(1.9rem,4vw,2.8rem)] font-black mb-1" style={{ color: C.text, fontFamily: "'Playfair Display',Georgia,serif", lineHeight: 1.1 }}>
+          <h2
+            className="font-black mb-1"
+            style={{ fontSize: "clamp(1.9rem,4vw,2.8rem)", color: C.text, fontFamily: "'Playfair Display',Georgia,serif", lineHeight: 1.1 }}
+          >
             Featured{" "}
-            <span className="italic bg-clip-text text-white px-2" style={{ background: `linear-gradient(135deg, ${C.pink}, ${C.pinkDark})` }}>
+            <span style={{
+              fontStyle: "italic",
+              background: `linear-gradient(135deg,${C.pink},${C.pinkDark})`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}>
               Products
             </span>
           </h2>
-          <p className="text-[16px]" style={{ color: C.textMid }}>
-            Top picks across our collections, style &amp; beauty in one place.
+          <p style={{ color: C.textMid, fontSize: "15px" }}>
+            Top picks across our collections — style &amp; beauty in one place.
           </p>
         </div>
 
         {/* Tabs */}
         <div className="flex justify-center mb-9">
-          <div className="inline-flex rounded-full bg-white border border-[${C.creamDeep}] p-[2px] gap-1">
+          <div className="inline-flex rounded-full p-[5px] gap-1" style={{ background: C.cream, border: `1px solid ${C.creamDeep}` }}>
             {[
-              { key: "shoes", label: "👟 Shoes" },
-              { key: "cosmetics", label: "💄 Cosmetics" },
+              { key: "shoes",     label: "👟  Shoes"     },
+              { key: "cosmetics", label: "💄  Cosmetics" },
             ].map(({ key, label }) => (
               <button
                 key={key}
                 onClick={() => switchTab(key)}
-                className={`px-6 py-2 rounded-full font-bold text-[13px] uppercase transition-all ${
-                  activeTab === key ? "text-white shadow-lg" : "text-[C.textMid]"
-                }`}
+                className="px-7 py-2 rounded-full font-bold text-[13px] transition-all duration-250"
                 style={{
-                  background: activeTab === key ? `linear-gradient(135deg, ${C.pink}, ${C.pinkDark})` : "transparent",
+                  background: activeTab === key ? `linear-gradient(135deg,${C.pink},${C.pinkDark})` : "transparent",
+                  color:      activeTab === key ? C.white : C.textMid,
+                  boxShadow:  activeTab === key ? "0 4px 16px rgba(231,84,128,0.3)" : "none",
                 }}
               >
                 {label}
@@ -194,19 +206,20 @@ export default function FeaturedProducts() {
 
         {/* View All */}
         <div className="text-center mt-11">
-          <a
-            href={activeTab === "shoes" ? "/shoes" : "/cosmetics"}
-            className="inline-flex items-center gap-2 px-9 py-3 rounded-full font-bold text-[13px] uppercase transition-transform"
+          <Link
+            to={activeTab === "shoes" ? "/shoes" : "/cosmetics"}
+            className="inline-flex items-center gap-2 px-9 py-3 rounded-full font-bold text-[13px] uppercase transition-all"
             style={{
-              background: `linear-gradient(135deg, ${C.pink}, ${C.pinkDark})`,
+              background: `linear-gradient(135deg,${C.pink},${C.pinkDark})`,
               color: C.white,
               boxShadow: "0 6px 24px rgba(231,84,128,0.3)",
+              textDecoration: "none",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-2px)")}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}
+            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 10px 30px rgba(231,84,128,0.42)"; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 6px 24px rgba(231,84,128,0.3)"; }}
           >
             View All {activeTab === "shoes" ? "Shoes" : "Cosmetics"} →
-          </a>
+          </Link>
         </div>
       </div>
     </section>
