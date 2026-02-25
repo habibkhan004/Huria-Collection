@@ -15,6 +15,7 @@ export const SHOES = [
     colors: ["#2c1810", "#4a3728", "#8b6f47"],
     colorNames: ["Dark Brown", "Walnut", "Tan"],
     collection: "shoes",
+    shippingFee: 200,
   },
   {
     id: 2,
@@ -26,12 +27,13 @@ export const SHOES = [
     sale: false,
     saleLabel: null,
     isNew: true,
-     img: "/shoes2.jpg",
+    img: "/shoes2.jpg",
     description: "Elegant strappy heels that take you from day to night. Adjustable ankle strap with padded footbed for comfortable wear.",
     sizes: ["36", "37", "38", "39", "40", "41"],
     colors: ["#f5e6dc", "#e75480", "#1a1a1a"],
     colorNames: ["Nude", "Pink", "Black"],
     collection: "shoes",
+    shippingFee: 0,
   },
   {
     id: 3,
@@ -43,12 +45,13 @@ export const SHOES = [
     sale: true,
     saleLabel: "26% OFF",
     isNew: false,
-      img: "/shoes3.jpg",
+    img: "/shoes3.jpg",
     description: "Clean minimal runners with breathable mesh upper and lightweight rubber sole. Perfect for everyday street style.",
     sizes: ["38", "39", "40", "41", "42", "43", "44"],
     colors: ["#ffffff", "#1a1a1a", "#e75480"],
     colorNames: ["White", "Black", "Pink"],
     collection: "shoes",
+    shippingFee: 250,
   },
   {
     id: 4,
@@ -60,12 +63,13 @@ export const SHOES = [
     sale: true,
     saleLabel: "26% OFF",
     isNew: false,
-      img: "/img 1.jpeg",
-    description: "Statement ankle boots with sturdy block heel. Side zip closure with faux suede finish — bold yet comfortable.",
+    img: "/img 1.jpeg",
+    description: "Statement ankle boots with sturdy block heel.",
     sizes: ["36", "37", "38", "39", "40"],
     colors: ["#1a1a1a", "#4a3728", "#b5355c"],
     colorNames: ["Black", "Brown", "Burgundy"],
     collection: "shoes",
+    shippingFee: 250,
   },
   {
     id: 5,
@@ -78,11 +82,12 @@ export const SHOES = [
     saleLabel: null,
     isNew: true,
     img: "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=600&q=80",
-    description: "Premium suede loafers with a penny strap detail. Versatile enough for smart-casual or office wear.",
+    description: "Premium suede loafers.",
     sizes: ["40", "41", "42", "43", "44"],
     colors: ["#8b6f47", "#2c1810", "#4a6fa5"],
     colorNames: ["Tan", "Dark Brown", "Navy"],
     collection: "shoes",
+    shippingFee: 250,
   },
   {
     id: 6,
@@ -95,11 +100,12 @@ export const SHOES = [
     saleLabel: "25% OFF",
     isNew: false,
     img: "https://images.unsplash.com/photo-1562273138-f46be4ebdf33?w=600&q=80",
-    description: "Chunky flatform slides with wide velcro strap. Easy slip-on style with a comfortable foam cushion sole.",
+    description: "Chunky flatform slides.",
     sizes: ["36", "37", "38", "39", "40", "41"],
     colors: ["#ffffff", "#f5e6dc", "#e75480"],
     colorNames: ["White", "Cream", "Pink"],
     collection: "shoes",
+    shippingFee: 250,
   },
 ];
 
@@ -120,6 +126,7 @@ export const COSMETICS = [
     colors: ["#c0392b", "#e75480", "#8b0000", "#d4796a", "#b5355c"],
     colorNames: ["Ruby Red", "Rose Pink", "Deep Wine", "Coral", "Berry"],
     collection: "cosmetics",
+    shippingFee: 150,
   },
   {
     id: 8,
@@ -137,6 +144,7 @@ export const COSMETICS = [
     colors: ["#f5deb3", "#d2a679", "#c19a6b", "#8d5524", "#5c3317"],
     colorNames: ["Ivory", "Sand", "Beige", "Caramel", "Espresso"],
     collection: "cosmetics",
+    shippingFee: 150,
   },
   {
     id: 9,
@@ -154,6 +162,7 @@ export const COSMETICS = [
     colors: ["#1a1a1a", "#2c1810"],
     colorNames: ["Black", "Brown Black"],
     collection: "cosmetics",
+    shippingFee: 0,
   },
   {
     id: 10,
@@ -171,6 +180,7 @@ export const COSMETICS = [
     colors: ["#e8b4b8", "#f7d794", "#f5f5f5"],
     colorNames: ["Rose Gold", "Champagne", "Pearl"],
     collection: "cosmetics",
+    shippingFee: 0,
   },
   {
     id: 11,
@@ -188,6 +198,7 @@ export const COSMETICS = [
     colors: [],
     colorNames: [],
     collection: "cosmetics",
+    shippingFee: 200,
   },
   {
     id: 12,
@@ -205,6 +216,7 @@ export const COSMETICS = [
     colors: [],
     colorNames: [],
     collection: "cosmetics",
+    shippingFee: 100,
   },
 ];
 

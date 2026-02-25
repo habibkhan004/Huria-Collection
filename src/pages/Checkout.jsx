@@ -18,8 +18,13 @@ export default function Checkout() {
   const navigate = useNavigate();
   const { items, totalPrice, clearCart } = useCart();
 
-  const SHIPPING_FEE = 250;
-  const finalTotal = totalPrice + SHIPPING_FEE;
+  // 🔥 Dynamic Shipping (highest shipping fee in cart)
+  const shippingTotal =
+    items && items.length > 0
+      ? Math.max(...items.map((item) => item.shippingFee || 0))
+      : 0;
+
+  const finalTotal = totalPrice + shippingTotal;
 
   const [form, setForm] = useState({
     name: "",
@@ -39,6 +44,7 @@ export default function Checkout() {
         <h2 style={{ color: C.text }} className="text-xl font-bold">
           Your cart is empty
         </h2>
+
         <button
           onClick={() => navigate("/")}
           style={{ background: C.pink, color: C.white }}
@@ -67,7 +73,7 @@ export default function Checkout() {
         customer: form,
         items,
         subtotal: totalPrice,
-        shipping: SHIPPING_FEE,
+        shipping: shippingTotal,
         total: finalTotal,
       });
 
@@ -78,9 +84,12 @@ export default function Checkout() {
   };
 
   return (
-    <div style={{ background: C.cream, minHeight: "100vh" }} className="py-14 px-6">
+    <div
+      style={{ background: C.cream, minHeight: "100vh" }}
+      className="py-14 px-6"
+    >
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14">
-
+        
         {/* LEFT — Customer Details */}
         <div>
           <h2
@@ -195,6 +204,7 @@ export default function Checkout() {
                     Qty: {item.qty}
                   </p>
                 </div>
+
                 <p style={{ color: C.pink }} className="font-bold">
                   PKR {(item.price * item.qty).toLocaleString()}
                 </p>
@@ -213,7 +223,11 @@ export default function Checkout() {
 
             <div className="flex justify-between">
               <span style={{ color: C.textMid }}>Shipping</span>
-              <span>PKR {SHIPPING_FEE.toLocaleString()}</span>
+              <span>
+                {shippingTotal === 0
+                  ? "Free"
+                  : `PKR ${shippingTotal.toLocaleString()}`}
+              </span>
             </div>
 
             <div

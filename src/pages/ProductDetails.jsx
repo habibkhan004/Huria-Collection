@@ -61,6 +61,17 @@ export default function ProductDetail() {
     setTimeout(() => setAdded(false), 2000);
   };
 
+  const handleBuyNow = () => {
+  const item = {
+    ...product,
+    selectedSize,
+    selectedColor: product.colorNames[selectedColor] || null,
+  };
+
+  addToCart(item, qty);   // optionally add to cart
+  navigate("/checkout");  // redirect to checkout page
+};
+
   const savings = product.originalPrice ? product.originalPrice - product.price : 0;
 
   return (
@@ -286,6 +297,37 @@ export default function ProductDetail() {
                 : <><ShoppingBag size={17} /> Add to Cart — PKR {(product.price * qty).toLocaleString()}</>
               }
             </button>
+            <button
+  onClick={handleBuyNow}
+  style={{
+    width: "100%",
+    padding: "15px",
+    borderRadius: "14px",
+    border: `2px solid ${C.pink}`,
+    cursor: "pointer",
+    fontWeight: 800,
+    fontSize: "14px",
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "9px",
+    background: C.white,
+    color: C.pink,
+    transition: "all .25s ease",
+  }}
+  onMouseEnter={e => {
+    e.currentTarget.style.background = C.pink;
+    e.currentTarget.style.color = C.white;
+  }}
+  onMouseLeave={e => {
+    e.currentTarget.style.background = C.white;
+    e.currentTarget.style.color = C.pink;
+  }}
+>
+  Buy Now — PKR {(product.price * qty).toLocaleString()}
+</button>
 
             {/* Cart count hint */}
             {totalItems > 0 && (

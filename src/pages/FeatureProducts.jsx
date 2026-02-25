@@ -83,42 +83,44 @@ const ProductCard = ({ product, idx }) => {
       </div>
 
       {/* Info */}
-      <div className="flex flex-col flex-1 gap-2 p-3">
-        <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: C.pinkLight }}>
-          {product.category}
-        </span>
-        <h3 className="text-sm font-bold" style={{ color: C.text, lineHeight: 1.3 }}>
-          {product.name}
-        </h3>
-        <Stars rating={product.rating} />
-        <div className="flex items-center gap-2">
-          <span className="text-[17px] font-black" style={{ color: C.pink }}>
-            PKR {product.price.toLocaleString()}
-          </span>
-          {product.originalPrice && (
-            <span className="text-[12px] line-through" style={{ color: C.pinkLight }}>
-              PKR {product.originalPrice.toLocaleString()}
-            </span>
-          )}
-        </div>
+<div className="flex flex-col flex-1 gap-2 p-3">
+  <span  className="text-[10px] flex justify-between font-bold tracking-widest uppercase text-black">
+    {product.category}
+      {product.shippingFee === 0 && (
+    <span className="text-[11px] font-bold text-green-600">
+      Free Delivery
+    </span>
+  )}
+  </span>
 
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate(`/product/${product.id}`);
-          }}
-          className="mt-1 flex items-center justify-center gap-2 w-full py-2 rounded-lg font-bold text-[12px] uppercase transition-transform duration-200"
-          style={{
-            background: `linear-gradient(135deg, ${C.pink}, ${C.pinkDark})`,
-            color: C.white,
-            boxShadow: "0 4px 14px rgba(231,84,128,0.28)",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-1px)")}
-          onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}
-        >
-          <ShoppingBag size={14} /> Buy Now
-        </button>
-      </div>
+  <h3 className="text-sm font-bold text-[#3b1f2b] leading-tight">
+    {product.name}
+  </h3>
+
+  <div className="flex items-center gap-2">
+    <span className="text-[17px] font-black text-pink-600">
+      PKR {product.price.toLocaleString()}
+    </span>
+
+    {product.originalPrice && (
+      <span className="text-[12px] line-through text-pink-300">
+        PKR {product.originalPrice.toLocaleString()}
+      </span>
+    )}
+  </div>
+
+
+
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      navigate(`/product/${product.id}`);
+    }}
+    className="mt-2 flex items-center justify-center gap-2 w-full py-2 rounded-lg font-bold text-[12px] uppercase bg-gradient-to-r from-pink-500 to-pink-700 text-white shadow-md hover:scale-105 transition-transform"
+  >
+    <ShoppingBag size={14} /> Buy Now
+  </button>
+</div>
     </div>
   );
 };
@@ -151,12 +153,12 @@ export default function FeaturedProducts() {
           </span>
           <h2 className="text-[clamp(1.9rem,4vw,2.8rem)] font-black mb-1" style={{ color: C.text, fontFamily: "'Playfair Display',Georgia,serif", lineHeight: 1.1 }}>
             Featured{" "}
-            <span className="italic bg-clip-text text-transparent" style={{ background: `linear-gradient(135deg, ${C.pink}, ${C.pinkDark})` }}>
+            <span className="italic bg-clip-text text-white px-2" style={{ background: `linear-gradient(135deg, ${C.pink}, ${C.pinkDark})` }}>
               Products
             </span>
           </h2>
-          <p className="text-[14px]" style={{ color: C.textMid }}>
-            Top picks across our collections — style &amp; beauty in one place.
+          <p className="text-[16px]" style={{ color: C.textMid }}>
+            Top picks across our collections, style &amp; beauty in one place.
           </p>
         </div>
 
