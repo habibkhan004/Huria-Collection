@@ -2,6 +2,7 @@ import { useState } from 'react'
 import HeroSection from '../components/Hero'
 import FeaturedProducts from './FeatureProducts'
 import ContactUs from '../components/Contact'
+import WhySections from './Why'
 
 
 function Home() {
@@ -11,7 +12,8 @@ function Home() {
     <>
     <HeroSection></HeroSection>
     <FeaturedProducts></FeaturedProducts>
-    <ContactUs></ContactUs>
+    <WhySections></WhySections>
+     <ContactUs></ContactUs>
     </>
   )
 }

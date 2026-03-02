@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Heart, Star, Package, Truck } from "lucide-react";
+import WhySections from "../pages/Why";
 
 // ─── Color tokens ──────────────────────────────────────────────────────────────
 const C = {
@@ -327,6 +328,7 @@ export default function About() {
           </div>
         </div>
       </section>
+      <WhySections></WhySections>
     </div>
   );
 }

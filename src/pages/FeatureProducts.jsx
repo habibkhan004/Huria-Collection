@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ShoppingBag, Star, Truck } from "lucide-react";
-import { SHOES, COSMETICS } from "../components/ProductsData";
+import { useProducts } from "../context/ProductContext";
 
 const C = {
   pink:      "#e75480",
@@ -49,7 +49,7 @@ const ProductCard = ({ product, idx }) => {
         transform: hovered ? "translateY(-6px)" : "translateY(0)",
       }}
     >
-      {/* ── Image ── */}
+      {/* Image */}
       <div className="relative w-full aspect-square overflow-hidden" style={{ background: C.creamDark }}>
         <img
           src={product.img}
@@ -57,8 +57,6 @@ const ProductCard = ({ product, idx }) => {
           className="w-full h-full object-cover transition-transform duration-500"
           style={{ transform: hovered ? "scale(1.07)" : "scale(1)" }}
         />
-
-        {/* Sale / New badges */}
         <div className="absolute top-2.5 left-2.5 flex flex-col gap-1">
           {product.sale && (
             <span className="px-2.5 py-[3px] text-[10px] font-extrabold rounded-full"
@@ -75,33 +73,29 @@ const ProductCard = ({ product, idx }) => {
         </div>
       </div>
 
-      {/* ── Info ── */}
+      {/* Info */}
       <div className="flex flex-col flex-1 gap-1.5 p-3 pt-2.5">
-
-        {/* Category */}
-        <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: 'black' }}>
+        <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: "black" }}>
           {product.category}
         </span>
 
-        {/* Name */}
-        <h3 className="text-sm font-bold leading-snug" style={{ color: 'black'}}>
+        <h3 className="text-sm font-bold leading-snug" style={{ color: "black" }}>
           {product.name}
         </h3>
 
+        <Stars rating={product.rating} />
 
-        {/* Price row */}
         <div className="flex items-baseline gap-2 mt-0.5">
           <span className="text-[19px] font-black" style={{ color: C.pink }}>
             PKR {product.price.toLocaleString()}
           </span>
           {product.originalPrice && (
-            <span className="text-[14px] line-through" style={{ color: 'black' }}>
+            <span className="text-[14px] line-through" style={{ color: "black" }}>
               PKR {product.originalPrice.toLocaleString()}
             </span>
           )}
         </div>
 
-        {/* Free Delivery — sits right below price, compact */}
         {product.shippingFee === 0 && (
           <div className="flex items-center gap-1">
             <Truck size={11} color="#16a34a" />
@@ -109,7 +103,6 @@ const ProductCard = ({ product, idx }) => {
           </div>
         )}
 
-        {/* Buy Now */}
         <button
           onClick={(e) => { e.stopPropagation(); navigate(`/product/${product.id}`); }}
           className="mt-auto flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl font-bold text-[12px] uppercase tracking-wide transition-all duration-200"
@@ -134,7 +127,8 @@ export default function FeaturedProducts() {
   const [activeTab, setActiveTab] = useState("shoes");
   const [tabKey, setTabKey]       = useState(0);
 
-  const products = activeTab === "shoes" ? SHOES : COSMETICS;
+  const { shoes, cosmetics } = useProducts();
+  const products = activeTab === "shoes" ? shoes : cosmetics;
 
   const switchTab = (tab) => {
     if (tab !== activeTab) { setActiveTab(tab); setTabKey(k => k + 1); }
@@ -176,7 +170,8 @@ export default function FeaturedProducts() {
 
         {/* Tabs */}
         <div className="flex justify-center mb-9">
-          <div className="inline-flex rounded-full p-[5px] gap-1" style={{ background: C.cream, border: `1px solid ${C.creamDeep}` }}>
+          <div className="inline-flex rounded-full p-[5px] gap-1"
+            style={{ background: C.cream, border: `1px solid ${C.creamDeep}` }}>
             {[
               { key: "shoes",     label: "👟  Shoes"     },
               { key: "cosmetics", label: "💄  Cosmetics" },
@@ -184,7 +179,7 @@ export default function FeaturedProducts() {
               <button
                 key={key}
                 onClick={() => switchTab(key)}
-                className="px-7 py-2 rounded-full font-bold text-[13px] transition-all duration-250"
+                className="px-7 py-2 rounded-full font-bold text-[13px] transition-all"
                 style={{
                   background: activeTab === key ? `linear-gradient(135deg,${C.pink},${C.pinkDark})` : "transparent",
                   color:      activeTab === key ? C.white : C.textMid,

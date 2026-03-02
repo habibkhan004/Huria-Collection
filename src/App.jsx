@@ -7,7 +7,9 @@ import Checkout from './pages/Checkout'
 import ScrollToTop from './components/ScrollToTop'
 import ContactUs from './components/Contact'
 import WhatsAppFloat from './components/WhatsappFloat'
-
+import Shoes from './pages/Shoes'
+import Cosmetics from './pages/Cosmetics'
+import Sale from './pages/Sales'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './components/About'
@@ -24,6 +26,9 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path='/shoes' element={<Shoes />} />
+        <Route path='/cosmetics' element ={<Cosmetics />} />
+        <Route path='/sale' element={<Sale />} />
       </Routes>
       <Footer />
       <WhatsAppFloat />
