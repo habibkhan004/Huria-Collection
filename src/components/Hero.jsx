@@ -6,12 +6,11 @@ const SLIDES = [
   {
     id: 0,
     theme: {
-      // ── Light warm sand/beige theme for shoes ──
-      bg:         "#f5efe6",          // warm light sand
-      accent:     "#8b6f47",          // warm brown
-      accentDark: "#5c4430",          // deep brown
-      text:       "#2d1f0e",          // dark warm brown text
-      sub:        "#7a6248",          // mid brown subtext
+      bg:         "#f5efe6",
+      accent:     "#8b6f47",
+      accentDark: "#5c4430",
+      text:       "#2d1f0e",
+      sub:        "#7a6248",
       badge:      { bg: "#e8d8c4", color: "#5c4430" },
       btnPrimary: { bg: "linear-gradient(135deg,#8b6f47,#5c4430)", color: "#fff5ee" },
       imgRing:    "rgba(139,111,71,0.18)",
@@ -32,12 +31,11 @@ const SLIDES = [
   {
     id: 1,
     theme: {
-      // ── Warm cream + rose theme for cosmetics ──
-      bg:         "#fff8f2",          // warm cream
-      accent:     "#d4796a",          // muted rose
-      accentDark: "#a85547",          // deep rose
-      text:       "#3b1f2b",          // dark plum text
-      sub:        "#7a5040",          // mid rose-brown subtext
+      bg:         "#fff8f2",
+      accent:     "#d4796a",
+      accentDark: "#a85547",
+      text:       "#3b1f2b",
+      sub:        "#7a5040",
       badge:      { bg: "#f4a7b9", color: "#3b1f2b" },
       btnPrimary: { bg: "linear-gradient(135deg,#e75480,#b5355c)", color: "#fff" },
       imgRing:    "rgba(212,121,106,0.15)",
@@ -70,7 +68,7 @@ export default function HeroSection() {
 
   useEffect(() => {
     if (paused) return;
-    timer.current = setTimeout(next, 3000);
+    timer.current = setTimeout(next, 5000); // ← 5 seconds
     return () => clearTimeout(timer.current);
   }, [active, paused]);
 
@@ -125,10 +123,6 @@ export default function HeroSection() {
         @keyframes hs-progress {
           from{ width:0%;   }
           to  { width:100%; }
-        }
-        @keyframes hs-ticker {
-          0%  { transform:translateX(0);    }
-          100%{ transform:translateX(-50%); }
         }
         .hs-btn {
           position:relative; overflow:hidden;
@@ -254,12 +248,11 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* RIGHT — Image — visible on all screens */}
+        {/* RIGHT — Image */}
         <div
           className="flex-shrink-0 flex items-center justify-center relative"
           style={{ animation:"hs-scaleIn 0.7s cubic-bezier(.34,1.4,.64,1) 0.1s both" }}
         >
-          {/* Spinning ring — hidden on mobile to keep it clean */}
           <div className="hidden sm:block" style={{
             position:"absolute",
             width:370, height:370, borderRadius:"50%",
@@ -276,7 +269,6 @@ export default function HeroSection() {
             pointerEvents:"none",
           }}/>
 
-          {/* Image card — NO badges inside */}
           <div style={{
             width:"clamp(200px,55vw,320px)",
             aspectRatio:"3/4",
@@ -297,7 +289,6 @@ export default function HeroSection() {
               }}
               onLoad={() => setLoaded(p => ({ ...p, [s.id]:true }))}
             />
-            {/* Subtle bottom gradient only — no text/badges */}
             <div style={{
               position:"absolute", inset:0,
               background:`linear-gradient(to top, ${T.accentDark}55 0%, transparent 45%)`,
@@ -309,15 +300,15 @@ export default function HeroSection() {
 
       {/* ── Prev / Next arrows ── */}
       {[
-        { fn:back, Icon:ChevronLeft,  css:"left:14px"  },
-        { fn:next, Icon:ChevronRight, css:"right:14px" },
-      ].map(({ fn, Icon, css }, i) => (
+        { fn:back, Icon:ChevronLeft,  pos:"left",  val:"14px" },
+        { fn:next, Icon:ChevronRight, pos:"right", val:"14px" },
+      ].map(({ fn, Icon, pos, val }, i) => (
         <button
           key={i}
           onClick={fn}
           style={{
             position:"absolute", top:"50%",
-            [css.split(":")[0]]: css.split(":")[1],
+            [pos]: val,
             transform:"translateY(-50%)",
             zIndex:20, width:40, height:40, borderRadius:"50%",
             background:"rgba(255,255,255,0.88)",
@@ -357,7 +348,7 @@ export default function HeroSection() {
                 style={{
                   position:"absolute", top:0, left:0, height:"100%",
                   background:"rgba(255,255,255,0.55)",
-                  animation:"hs-progress 3s linear forwards",
+                  animation:"hs-progress 5s linear forwards", // ← matches 5s timer
                   borderRadius:99,
                 }}
               />
