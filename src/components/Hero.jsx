@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const SLIDES = [
   {
@@ -23,7 +24,7 @@ const SLIDES = [
     headline: "Step Into\nBold Style",
     sub:     "Premium men's footwear — crafted for comfort, built for confidence.",
     cta:     "Shop Men's Shoes",
-    ctaLink: "/shoes/men",
+    ctaLink: "/shoes",
     imgSrc:  "/shoes2.jpg",
     imgAlt:  "Men's shoes collection",
     tag:     "Sale up to 40% off",
@@ -225,8 +226,8 @@ export default function HeroSection() {
 
           {/* CTA row */}
           <div style={{ display:"flex", alignItems:"center", gap:"12px", flexWrap:"wrap", animation:"hs-fadeUp 0.6s ease 0.42s both" }}>
-            <a
-              href={s.ctaLink}
+            <Link
+              to={s.ctaLink}
               className="hs-btn"
               style={{
                 display:"inline-flex", alignItems:"center", gap:"8px",
@@ -238,7 +239,7 @@ export default function HeroSection() {
               }}
             >
               {s.cta} <ArrowRight size={15} />
-            </a>
+            </Link>
 
             <span style={{
               fontSize:"12px", fontWeight:600,
