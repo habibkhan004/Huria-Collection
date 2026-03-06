@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useOrder } from "../context/OrderContext";
 
 const C = {
   pink: "#e75480",
@@ -17,6 +18,7 @@ const C = {
 export default function Checkout() {
   const navigate = useNavigate();
   const { items, totalPrice, clearCart } = useCart();
+  const { placeOrder } = useOrder();
 
   // 🔥 Dynamic Shipping (highest shipping fee in cart)
   const shippingTotal =
@@ -60,27 +62,24 @@ export default function Checkout() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     if (!form.name || !form.phone || !form.address || !form.city) {
       alert("Please fill all fields.");
       return;
     }
 
     setLoading(true);
-
-    setTimeout(() => {
-      console.log("Order Data:", {
-        customer: form,
-        items,
-        subtotal: totalPrice,
-        shipping: shippingTotal,
-        total: finalTotal,
-      });
-
+    try {
+      await placeOrder(form, items, totalPrice, shippingTotal, finalTotal);
       clearCart();
       navigate("/");
-      alert("Order placed successfully!");
-    }, 1200);
+      alert("Order placed successfully! We will contact you soon.");
+    } catch (err) {
+      const msg = err.response?.data?.message || "Failed to place order. Please try again.";
+      alert(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -178,9 +177,9 @@ export default function Checkout() {
           </h3>
 
           <div className="flex flex-col gap-5">
-            {items.map((item) => (
+            {items.map((item, idx) => (
               <div
-                key={item.id}
+                key={item._id || item.id || idx}
                 className="flex justify-between text-sm"
               >
                 <div>

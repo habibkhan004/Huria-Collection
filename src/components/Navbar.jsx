@@ -45,8 +45,8 @@ const PHONE = "+92 321 3242328";
 
 const NAV_DATA = {
   home: { label: "Home", link: "/" },
-  shoes: { label: "Shoes", link: "/shoes" },
   cosmetics: { label: "Cosmetics", link: "/cosmetics" },
+  shoes: { label: "Shoes", link: "/shoes" },
 };
 
 const STATIC_LINKS = [
@@ -174,7 +174,7 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16 gap-4">
-            {/* Hamburger */}
+            {/* Hamburger (mobile only) */}
             <button
               className="lg:hidden p-2 rounded-xl transition"
               style={{ color: C.pink }}
@@ -305,7 +305,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── Mobile Drawer ── */}
+        {/* ── Mobile Drawer (only below lg) ── */}
         <div
           className="lg:hidden overflow-hidden border-t transition-all duration-300"
           style={{

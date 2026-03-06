@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+import axios from "axios";
 import { Phone, Mail, MapPin, Send, Facebook, Instagram, CheckCircle, MessageCircle } from "lucide-react";
+
+const API = axios.create({ baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api" });
 
 const TikTokIcon = ({ size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
@@ -162,12 +165,26 @@ export default function ContactUs() {
     return e;
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setSending(true);
-    setTimeout(() => { setSending(false); setSent(true); }, 1500);
+    try {
+      await API.post("/contacts", {
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim() || undefined,
+        subject: form.subject.trim() || undefined,
+        message: form.message.trim(),
+      });
+      setSent(true);
+      setForm({ name: "", email: "", phone: "", subject: "", message: "" });
+    } catch (err) {
+      setErrors({ submit: err.response?.data?.message || "Failed to send. Please try again." });
+    } finally {
+      setSending(false);
+    }
   };
 
   const SOCIALS = [
@@ -480,6 +497,11 @@ export default function ContactUs() {
                     )}
                   </button>
 
+                  {errors.submit && (
+                    <p style={{ color: C.pink, fontSize: "13px", textAlign: "center", margin: 0 }}>
+                      {errors.submit}
+                    </p>
+                  )}
                   <p style={{ fontSize:"11px", color:C.textMid, textAlign:"center", margin:0 }}>
                     * Required fields. Your info is safe with us.
                   </p>

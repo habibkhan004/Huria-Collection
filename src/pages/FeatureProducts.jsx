@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { ShoppingBag, Star, Truck } from "lucide-react";
+import { ShoppingBag, Truck } from "lucide-react";
 import { useProducts } from "../context/ProductContext";
 
 const C = {
@@ -16,26 +16,13 @@ const C = {
   white:     "#ffffff",
 };
 
-const Stars = ({ rating }) => (
-  <div className="flex items-center gap-[2px]">
-    {[1, 2, 3, 4, 5].map((i) => (
-      <Star
-        key={i}
-        size={11}
-        fill={i <= Math.round(rating) ? C.pink : "transparent"}
-        color={i <= Math.round(rating) ? C.pink : C.pinkLight}
-      />
-    ))}
-  </div>
-);
-
 const ProductCard = ({ product, idx }) => {
   const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
 
   return (
     <div
-      onClick={() => navigate(`/product/${product.id}`)}
+      onClick={() => navigate(`/product/${product._id}`)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className="flex flex-col cursor-pointer overflow-hidden rounded-2xl transition-all duration-300"
@@ -83,8 +70,6 @@ const ProductCard = ({ product, idx }) => {
           {product.name}
         </h3>
 
-        <Stars rating={product.rating} />
-
         <div className="flex items-baseline gap-2 mt-0.5">
           <span className="text-[19px] font-black" style={{ color: C.pink }}>
             PKR {product.price.toLocaleString()}
@@ -104,7 +89,7 @@ const ProductCard = ({ product, idx }) => {
         )}
 
         <button
-          onClick={(e) => { e.stopPropagation(); navigate(`/product/${product.id}`); }}
+          onClick={(e) => { e.stopPropagation(); navigate(`/product/${product._id}`); }}
           className="mt-auto flex items-center justify-center gap-1.5 w-full py-2.5 rounded-xl font-bold text-[12px] uppercase tracking-wide transition-all duration-200"
           style={{
             background: `linear-gradient(135deg, ${C.pink}, ${C.pinkDark})`,
@@ -124,7 +109,7 @@ const ProductCard = ({ product, idx }) => {
 
 // ═══════════════════════════════════════════════════════════════════════════════
 export default function FeaturedProducts() {
-  const [activeTab, setActiveTab] = useState("shoes");
+  const [activeTab, setActiveTab] = useState("cosmetics");
   const [tabKey, setTabKey]       = useState(0);
 
   const { shoes, cosmetics } = useProducts();
@@ -173,8 +158,8 @@ export default function FeaturedProducts() {
           <div className="inline-flex rounded-full p-[5px] gap-1"
             style={{ background: C.cream, border: `1px solid ${C.creamDeep}` }}>
             {[
-              { key: "shoes",     label: "👟  Shoes"     },
               { key: "cosmetics", label: "💄  Cosmetics" },
+              { key: "shoes",     label: "👟  Shoes"     },
             ].map(({ key, label }) => (
               <button
                 key={key}
@@ -195,7 +180,7 @@ export default function FeaturedProducts() {
         {/* Grid */}
         <div key={tabKey} className="grid gap-5 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {products.map((p, i) => (
-            <ProductCard key={p.id} product={p} idx={i} />
+            <ProductCard key={p._id} product={p} idx={i} />
           ))}
         </div>
 

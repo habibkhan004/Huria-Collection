@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ShoppingBag, Star, Truck, SlidersHorizontal, X, ChevronDown } from "lucide-react";
+import { ShoppingBag, Truck, SlidersHorizontal, X, ChevronDown } from "lucide-react";
 
 const C = {
   pink:      "#e75480",
@@ -15,18 +15,6 @@ const C = {
   white:     "#ffffff",
 };
 
-// ─── Stars ─────────────────────────────────────────────────────────────────────
-const Stars = ({ rating }) => (
-  <div style={{ display:"flex", alignItems:"center", gap:"2px" }}>
-    {[1,2,3,4,5].map(i => (
-      <Star key={i} size={11}
-        fill={i <= Math.round(rating) ? C.pink : "transparent"}
-        color={i <= Math.round(rating) ? C.pink : C.pinkLight}
-      />
-    ))}
-  </div>
-);
-
 // ─── Single card ───────────────────────────────────────────────────────────────
 const ProductCard = ({ product, idx }) => {
   const navigate = useNavigate();
@@ -34,7 +22,7 @@ const ProductCard = ({ product, idx }) => {
 
   return (
     <div
-      onClick={() => navigate(`/product/${product.id}`)}
+      onClick={() => navigate(`/product/${product._id}`)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -52,15 +40,17 @@ const ProductCard = ({ product, idx }) => {
     >
       {/* Image */}
       <div style={{ position:"relative", aspectRatio:"1/1", overflow:"hidden", background:C.creamDark }}>
-        <img
-          src={product.img}
-          alt={product.name}
-          style={{
-            width:"100%", height:"100%", objectFit:"cover",
-            transform: hovered ? "scale(1.07)" : "scale(1)",
-            transition: "transform 0.5s ease",
-          }}
-        />
+        {product.img ? (
+          <img
+            src={product.img}
+            alt={product.name}
+            style={{
+              width:"100%", height:"100%", objectFit:"cover",
+              transform: hovered ? "scale(1.07)" : "scale(1)",
+              transition: "transform 0.5s ease",
+            }}
+          />
+        ) : null}
         {/* Badges */}
         <div style={{ position:"absolute", top:"10px", left:"10px", display:"flex", flexDirection:"column", gap:"4px" }}>
           {product.sale && (
@@ -84,7 +74,6 @@ const ProductCard = ({ product, idx }) => {
         <h3 style={{ fontSize:"14px", fontWeight:700, color:"black", margin:0, lineHeight:1.3, fontFamily:"'Playfair Display',Georgia,serif" }}>
           {product.name}
         </h3>
-        <Stars rating={product.rating} />
         <div style={{ display:"flex", alignItems:"baseline", gap:"8px", marginTop:"2px" }}>
           <span style={{ fontSize:"18px", fontWeight:900, color:C.pink }}>
             PKR {product.price.toLocaleString()}
@@ -102,7 +91,7 @@ const ProductCard = ({ product, idx }) => {
           </div>
         )}
         <button
-          onClick={e => { e.stopPropagation(); navigate(`/product/${product.id}`); }}
+          onClick={e => { e.stopPropagation(); navigate(`/product/${product._id}`); }}
           style={{
             marginTop:"auto", paddingTop:"10px",
             display:"flex", alignItems:"center", justifyContent:"center", gap:"6px",
@@ -139,7 +128,6 @@ const SortSelect = ({ value, onChange }) => (
       <option value="default">Sort: Default</option>
       <option value="price_asc">Price: Low → High</option>
       <option value="price_desc">Price: High → Low</option>
-      <option value="rating">Top Rated</option>
       <option value="newest">New Arrivals First</option>
     </select>
     <ChevronDown size={14} color={C.textMid} style={{ position:"absolute", right:"10px", pointerEvents:"none" }} />
@@ -163,7 +151,6 @@ export default function ProductGrid({ products = [], title, subtitle, accentLabe
   }
   if (sort === "price_asc")  list.sort((a,b) => a.price - b.price);
   if (sort === "price_desc") list.sort((a,b) => b.price - a.price);
-  if (sort === "rating")     list.sort((a,b) => b.rating - a.rating);
   if (sort === "newest")     list = list.filter(p => p.isNew).concat(list.filter(p => !p.isNew));
 
   const activeFilters = (freeOnly ? 1 : 0);
@@ -299,7 +286,7 @@ export default function ProductGrid({ products = [], title, subtitle, accentLabe
             gap:"18px",
           }}>
             {list.map((p, i) => (
-              <ProductCard key={p.id} product={p} idx={i} />
+              <ProductCard key={p._id} product={p} idx={i} />
             ))}
           </div>
         )}

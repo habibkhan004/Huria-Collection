@@ -27,8 +27,8 @@ const C = {
 // Internal routes → <Link to>
 const QUICK_LINKS = [
   { label: "Home",       to: "/"          },
-  { label: "Shoes",      to: "/shoes"     },
   { label: "Cosmetics",  to: "/cosmetics" },
+  { label: "Shoes",      to: "/shoes"     },
   { label: "Sale",       to: "/sale"      },
   { label: "About Us",   to: "/about"     },
   { label: "Contact Us", to: "/contact"   },

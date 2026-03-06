@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ShoppingBag, Heart, ArrowLeft, Plus, Minus, Check, Star, Truck, RefreshCw, Shield } from "lucide-react";
+import { ShoppingBag, Heart, ArrowLeft, Plus, Minus, Check, Truck, RefreshCw, Shield } from "lucide-react";
 import { useCart } from "../context/CartContext";
-import { ALL_PRODUCTS } from "../components/ProductsData";
+import { useProducts } from "../context/ProductContext";
 
 const C = {
   pink:      "#e75480",
@@ -17,30 +17,45 @@ const C = {
   white:     "#ffffff",
 };
 
-const Stars = ({ rating }) => (
-  <div style={{ display:"flex", alignItems:"center", gap:"3px" }}>
-    {[1,2,3,4,5].map(i => (
-      <Star key={i} size={14}
-        fill={i <= Math.round(rating) ? C.pink : "transparent"}
-        color={i <= Math.round(rating) ? C.pink : C.pinkLight}
-      />
-    ))}
-    <span style={{ fontSize:"13px", fontWeight:600, color:C.textMid, marginLeft:"4px" }}>{rating}</span>
-  </div>
-);
-
 export default function ProductDetail() {
   const { id }       = useParams();
   const navigate     = useNavigate();
   const { addToCart, totalItems } = useCart();
+  const { getProductById } = useProducts();
 
-  const product = ALL_PRODUCTS.find(p => p.id === Number(id));
-
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [qty, setQty] = useState(1);
-  const [selectedSize,  setSelectedSize]  = useState(product?.sizes?.[0] || null);
+  const [selectedSize,  setSelectedSize]  = useState(null);
   const [selectedColor, setSelectedColor] = useState(0);
   const [wished, setWished] = useState(false);
   const [added, setAdded] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      setLoading(true);
+      const p = await getProductById(id);
+      if (mounted) {
+        setProduct(p);
+        setLoading(false);
+      }
+    })();
+    return () => { mounted = false; };
+  }, [id, getProductById]);
+
+  useEffect(() => {
+    if (product) {
+      setSelectedSize(product.sizes?.[0] || null);
+      setSelectedColor(0);
+    }
+  }, [product]);
+
+  if (loading) return (
+    <div style={{ minHeight:"60vh", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:"16px", background:C.cream }}>
+      <p style={{ color:C.textMid, fontSize:"16px" }}>Loading product…</p>
+    </div>
+  );
 
   if (!product) return (
     <div style={{ minHeight:"60vh", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:"16px", background:C.cream }}>
@@ -156,9 +171,6 @@ export default function ProductDetail() {
             }}>
               {product.name}
             </h1>
-
-            {/* Stars */}
-            <Stars rating={product.rating} />
 
             {/* Price */}
             <div style={{ display:"flex", alignItems:"center", gap:"12px", flexWrap:"wrap" }}>
