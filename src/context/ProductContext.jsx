@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, useMemo, useCallback } from "react";
 import axios from "axios";
 
-const API = axios.create({ baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api" });
+const API = axios.create({ baseURL: import.meta.env.VITE_API_URL || "https://huriacollection.com/api" });
 
 const ProductContext = createContext(null);
 

@@ -18,169 +18,101 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row" style={{ background: C.cream }}>
+      
+      {/* Sidebar Backdrop (Mobile only) */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/50 md:hidden transition-opacity"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
 
       {/* Sidebar */}
       <aside
         className={`
-          fixed md:static inset-y-0 left-0 z-40
-          w-64 md:w-64 p-4 md:p-6
-          flex flex-col items-stretch justify-between gap-4
-          transform transition-transform duration-200
-          bg-white
+          fixed md:sticky top-0 inset-y-0 left-0 z-50
+          w-72 md:w-64 h-screen p-6
+          flex flex-col justify-between
+          transform transition-transform duration-300 ease-in-out
+          bg-white shadow-xl md:shadow-none
           ${mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
         `}
         style={{ borderRight: `1px solid ${C.creamDark}` }}
       >
-        <div className="w-full">
-          <div className="flex items-center justify-between mb-6">
-            <h2
-              className="text-xl font-black tracking-widest uppercase"
-              style={{ color: C.pinkDark }}
-            >
+        <div className="flex flex-col h-full">
+          {/* Sidebar Header */}
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-xl font-black tracking-widest uppercase" style={{ color: C.pinkDark }}>
               Admin Panel
             </h2>
             <button
-              type="button"
               onClick={() => setMobileOpen(false)}
-              className="md:hidden inline-flex items-center justify-center rounded-lg p-1.5 border"
-              style={{ borderColor: C.creamDark, color: C.textMid }}
+              className="md:hidden p-2 rounded-lg"
+              style={{ color: C.textMid, background: C.cream }}
             >
-              <X size={16} />
+              <X size={20} />
             </button>
           </div>
 
-          <nav className="flex md:flex-col gap-2 md:space-y-2">
-            <NavLink
-              to="dashboard"
-              onClick={() => setMobileOpen(false)}
-              className={({ isActive }) =>
-                `${linkBase} ${isActive ? "shadow-md" : ""}`
-              }
-              style={({ isActive }) => ({
-                background: isActive ? C.pinkPale : "transparent",
-                color: isActive ? C.pinkDark : C.text,
-              })}
-            >
-              <LayoutDashboard size={18} />
-              Dashboard
-            </NavLink>
-
-            <NavLink
-              to="products/add"
-              onClick={() => setMobileOpen(false)}
-              className={({ isActive }) =>
-                `${linkBase} ${isActive ? "shadow-md" : ""}`
-              }
-              style={({ isActive }) => ({
-                background: isActive ? C.pinkPale : "transparent",
-                color: isActive ? C.pinkDark : C.text,
-              })}
-            >
-              <Package size={18} />
-              Add Product
-            </NavLink>
-
-            <NavLink
-              to="products/manage"
-              onClick={() => setMobileOpen(false)}
-              className={({ isActive }) =>
-                `${linkBase} ${isActive ? "shadow-md" : ""}`
-              }
-              style={({ isActive }) => ({
-                background: isActive ? C.pinkPale : "transparent",
-                color: isActive ? C.pinkDark : C.text,
-              })}
-            >
-              <Package size={18} />
-              Manage Products
-            </NavLink>
-
-            <NavLink
-              to="orders"
-              onClick={() => setMobileOpen(false)}
-              className={({ isActive }) =>
-                `${linkBase} ${isActive ? "shadow-md" : ""}`
-              }
-              style={({ isActive }) => ({
-                background: isActive ? C.pinkPale : "transparent",
-                color: isActive ? C.pinkDark : C.text,
-              })}
-            >
-              <ShoppingCart size={18} />
-              Orders
-            </NavLink>
-
-            <NavLink
-              to="reports"
-              onClick={() => setMobileOpen(false)}
-              className={({ isActive }) =>
-                `${linkBase} ${isActive ? "shadow-md" : ""}`
-              }
-              style={({ isActive }) => ({
-                background: isActive ? C.pinkPale : "transparent",
-                color: isActive ? C.pinkDark : C.text,
-              })}
-            >
-              <BarChart3 size={18} />
-              Reports
-            </NavLink>
-
-            <NavLink
-              to="contact-form"
-              onClick={() => setMobileOpen(false)}
-              className={({ isActive }) =>
-                `${linkBase} ${isActive ? "shadow-md" : ""}`
-              }
-              style={({ isActive }) => ({
-                background: isActive ? C.pinkPale : "transparent",
-                color: isActive ? C.pinkDark : C.text,
-              })}
-            >
-              <Mail size={18} />
-              Contact Us Form
-            </NavLink>
+          {/* Navigation Links - Stacked vertically always */}
+          <nav className="flex flex-col gap-2 overflow-y-auto flex-1">
+            {[
+              { to: "dashboard", icon: <LayoutDashboard size={18} />, label: "Dashboard" },
+              { to: "products/add", icon: <Package size={18} />, label: "Add Product" },
+              { to: "products/manage", icon: <Package size={18} />, label: "Manage Products" },
+              { to: "orders", icon: <ShoppingCart size={18} />, label: "Orders" },
+              { to: "reports", icon: <BarChart3 size={18} />, label: "Reports" },
+              { to: "contact-form", icon: <Mail size={18} />, label: "Contact Us" },
+            ].map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                onClick={() => setMobileOpen(false)}
+                className={({ isActive }) => `${linkBase} ${isActive ? "shadow-sm" : ""}`}
+                style={({ isActive }) => ({
+                  background: isActive ? C.pinkPale : "transparent",
+                  color: isActive ? C.pinkDark : C.text,
+                })}
+              >
+                {link.icon}
+                {link.label}
+              </NavLink>
+            ))}
           </nav>
-        </div>
 
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all hover:scale-105"
-          style={{
-            background: C.pink,
-            color: C.white,
-          }}
-        >
-          <LogOut size={16} />
-          Logout
-        </button>
+          {/* Logout Button at bottom of sidebar */}
+          <button
+            onClick={handleLogout}
+            className="mt-auto flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold transition-transform active:scale-95"
+            style={{ background: C.pink, color: C.white }}
+          >
+            <LogOut size={18} />
+            Logout
+          </button>
+        </div>
       </aside>
 
-      {/* Main */}
-      <main className="flex-1 p-4 md:p-10">
-        {/* Mobile top bar with hamburger */}
-        <div className="flex items-center justify-between mb-4 md:hidden">
+      {/* Main Content Area */}
+      <main className="flex-1 flex flex-col min-w-0">
+        {/* Mobile Header Bar */}
+        <header className="md:hidden flex items-center justify-between p-4 bg-white sticky top-0 z-30 border-b" style={{ borderColor: C.creamDark }}>
           <button
-            type="button"
             onClick={() => setMobileOpen(true)}
-            className="inline-flex items-center justify-center rounded-lg p-2 border text-sm font-semibold"
-            style={{ borderColor: C.creamDark, color: C.text }}
+            className="p-2 rounded-lg"
+            style={{ background: C.cream, color: C.text }}
           >
-            <Menu size={18} />
+            <Menu size={24} />
           </button>
-          <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: C.textMid }}>
-            Admin Panel
+          <span className="font-black text-sm uppercase tracking-tighter" style={{ color: C.pinkDark }}>
+            Admin
           </span>
+          <div className="w-10" /> {/* Spacer for centering */}
+        </header>
+
+        {/* Content Wrapper */}
+        <div className="p-4 md:p-8 lg:p-12">
+          <Outlet />
         </div>
-
-        {/* Backdrop for mobile sidebar */}
-        {mobileOpen && (
-          <div
-            className="fixed inset-0 z-30 bg-black/40 md:hidden"
-            onClick={() => setMobileOpen(false)}
-          />
-        )}
-
-        <Outlet />
       </main>
     </div>
   );

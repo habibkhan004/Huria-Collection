@@ -1,4 +1,4 @@
-const WhatsAppFloat = ({ phone = "923213242328", message = "Hi! I'm interested in your products 😊" }) => {
+const WhatsAppFloat = ({ phone = "923117858668", message = "Hi! I'm interested in your products 😊" }) => {
   const href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
   return (

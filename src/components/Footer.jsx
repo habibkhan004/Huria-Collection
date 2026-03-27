@@ -42,9 +42,9 @@ const LEGAL_LINKS = [
 ];
 
 const SOCIAL = [
-  { Icon: Facebook,   href: "https://facebook.com/huriacollection",  label: "Facebook"  },
-  { Icon: Instagram,  href: "https://instagram.com/huriacollection", label: "Instagram" },
-  { Icon: TikTokIcon, href: "https://tiktok.com/@huriacollection",   label: "TikTok"    },
+  { Icon: Facebook,   href: "https://www.facebook.com/profile.php?id=61577407982988",  label: "Facebook"  },
+  { Icon: Instagram,  href: "https://www.instagram.com/huriacollection26", label: "Instagram" },
+  { Icon: TikTokIcon, href: "https://tiktok.com/@huria_collection",   label: "TikTok"    },
 ];
 
 // ─── Internal link with hover slide ───────────────────────────────────────────
@@ -186,7 +186,7 @@ export default function Footer() {
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               {[
                 { Icon: Phone,  text: "+92 321 3242328",         href: "tel:+923213242328",             sub: "Mon–Sat, 10am–8pm"  },
-                { Icon: Mail,   text: "info@huriacollection.pk", href: "mailto:info@huriacollection.pk",sub: "Reply within 24 hrs" },
+                { Icon: Mail,   text: "info@huriacollection.com", href: "mailto:info@huriacollection.com",sub: "Reply within 24 hrs" },
                 { Icon: MapPin, text: "Peshawar, Pakistan",       href: "#",                             sub: "Nationwide delivery" },
               ].map(({ Icon, text, href, sub }) => (
                 // External / tel / mailto → stay as <a>
@@ -226,9 +226,9 @@ export default function Footer() {
             © {new Date().getFullYear()} HURIA Collection. All rights reserved.
           </p>
 
-          <p style={{ fontSize: "12px", color: C.textMid, margin: 0 }}>
+          <a href="https://pk.linkedin.com/company/software-synergy-club" style={{ fontSize: "12px", color: C.textMid, margin: 0 }}>
             Made by Synergy Innovations
-          </p>
+          </a>
 
           {/* Legal links — internal routes */}
           <div className="ft-legal" style={{ display: "flex", gap: "18px", flexWrap: "wrap" }}>

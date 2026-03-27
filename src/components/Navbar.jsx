@@ -37,11 +37,11 @@ const C = {
 };
 
 const SOCIAL = {
-  facebook: "https://facebook.com/huriacollection",
-  instagram: "https://instagram.com/huriacollection",
-  tiktok: "https://tiktok.com/@huriacollection",
+  facebook: "https://www.facebook.com/profile.php?id=61577407982988",
+  instagram: "https://www.instagram.com/huriacollection26",
+  tiktok: "https://tiktok.com/@huria_collection",
 };
-const PHONE = "+92 321 3242328";
+const PHONE = "+92 311 7858688";
 
 const NAV_DATA = {
   home: { label: "Home", link: "/" },

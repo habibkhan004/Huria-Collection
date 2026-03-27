@@ -55,21 +55,13 @@ const VALUES = [
     title: "Premium Selection",
     body: "Our buyers handpick every shoe and cosmetic. Only pieces that meet our standard of luxury make it to the collection.",
   },
-  {
-    icon: "🔄",
-    title: "Hassle-Free Returns",
-    body: "Not satisfied? Return within 7 days. No questions asked. We believe you should love what you receive.",
-  },
+
   {
     icon: "💬",
     title: "Real Human Support",
     body: "Our team is available via WhatsApp, email and phone. You'll always speak to a real person, not a bot.",
   },
-  {
-    icon: "🛡️",
-    title: "Secure Payments",
-    body: "Shop with confidence. Your payment and personal data are fully protected with bank-grade security.",
-  },
+
 ];
 
 function WhyChooseUs() {
@@ -205,8 +197,8 @@ function ValueCard({ value, idx }) {
 function StatStrip() {
   const [ref, visible] = useReveal(0.1);
   const stats = [
-    { value:"1,200+", label:"Products" },
-    { value:"30k+",   label:"Happy Customers" },
+    { value:"100+", label:"Products" },
+    { value:"3k+",   label:"Happy Customers" },
     { value:"4.9★",   label:"Average Rating" },
     { value:"24hr",   label:"Dispatch Time" },
   ];
@@ -266,7 +258,7 @@ function IgCard({ post, idx }) {
   return (
     <a
       ref={ref}
-      href="https://instagram.com/huriacollection"
+      href="https://www.instagram.com/huriacollection26"
       target="_blank"
       rel="noopener noreferrer"
       onMouseEnter={() => setHovered(true)}
@@ -385,7 +377,7 @@ function InstagramFeed() {
         {/* CTA */}
         <div style={{ textAlign:"center", marginTop:"40px" }}>
           <a
-            href="https://instagram.com/huriacollection"
+            href="https://www.instagram.com/huriacollection26"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -416,7 +408,7 @@ function InstagramFeed() {
               <circle cx="12" cy="12" r="4"/>
               <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/>
             </svg>
-            Follow @huriacollection
+            Follow Huria Collection Pakistan
           </a>
         </div>
       </div>

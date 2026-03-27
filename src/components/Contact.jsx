@@ -187,11 +187,11 @@ export default function ContactUs() {
     }
   };
 
-  const SOCIALS = [
-    { Icon: Facebook,  href: "https://facebook.com/huriacollection",  label: "Facebook"  },
-    { Icon: Instagram, href: "https://instagram.com/huriacollection", label: "Instagram" },
-    { Icon: TikTokIcon,href: "https://tiktok.com/@huriacollection",   label: "TikTok"    },
-  ];
+const SOCIALS = [
+  { Icon: Facebook,   href: "https://www.facebook.com/profile.php?id=61577407982988",  label: "Facebook"  },
+  { Icon: Instagram,  href: "https://www.instagram.com/huriacollection26", label: "Instagram" },
+  { Icon: TikTokIcon, href: "https://tiktok.com/@huria_collection",   label: "TikTok"    },
+];
 
   return (
     <div style={{ background: C.cream, fontFamily: "'DM Sans', sans-serif", minHeight: "100vh" }}>
@@ -335,13 +335,13 @@ export default function ContactUs() {
               </p>
             </div>
 
-            <InfoCard icon={Phone}  label="Phone / WhatsApp" value="+92 321 3242328"         sub="Mon–Sat, 10am–8pm"            href="tel:+923213242328"               delay="0s"    visible={infoVisible} />
-            <InfoCard icon={Mail}   label="Email"            value="info@huriacollection.pk" sub="We reply within 24 hours"      href="mailto:info@huriacollection.pk"  delay="0.08s" visible={infoVisible} />
+            <InfoCard icon={Phone}  label="Phone / WhatsApp" value="+92 311 7858668"         sub="Mon–Sat, 10am–8pm"            href="tel:+923213242328"               delay="0s"    visible={infoVisible} />
+            <InfoCard icon={Mail}   label="Email"            value="info@huriacollection.com" sub="We reply within 24 hours"      href="mailto:info@huriacollection.com"  delay="0.08s" visible={infoVisible} />
             <InfoCard icon={MapPin} label="Location"         value="Peshawar, Pakistan"       sub="Nationwide delivery available" href="#"                               delay="0.16s" visible={infoVisible} />
 
             {/* WhatsApp CTA */}
             <a
-              href="https://wa.me/923213242328"
+              href="https://wa.me/923117858668"
               target="_blank"
               rel="noopener noreferrer"
               style={{
